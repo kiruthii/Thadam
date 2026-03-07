@@ -1,0 +1,46 @@
+.welcomeMessage {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.welcomeMessage h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.welcomeMessage p {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .welcomeMessage {
+    padding: 20px;
+  }
+
+  .welcomeMessage h1 {
+    font-size: 22px;
+  }
+
+  .welcomeMessage p {
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .welcomeMessage {
+    padding: 15px;
+  }
+
+  .welcomeMessage h1 {
+    font-size: 20px;
+  }
+
+  .welcomeMessage p {
+    font-size: 13px;
+  }
+}
