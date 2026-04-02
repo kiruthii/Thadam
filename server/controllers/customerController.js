@@ -16,8 +16,8 @@ const getAllCustomers = async (req, res) => {
     if (req.query.location) {
       filter["address.city"] = {$regex: req.query.location, $options: "i" }
     }
-    if (req.query.role) {
-      filter["role"] ={$regex: req.query.role, $options: "i" }
+  if (req.query.contactType && req.query.contactType !== "All") {
+      filter.contactType = req.query.contactType;
     }
     if (req.query.designation) {
       filter["designation"] = {$regex: req.query.designation, $options: "i"}
@@ -46,10 +46,9 @@ const getCustomerFilter = async(req, res) => {
       createdBy: req.userId
     })
 
-    const roles = await Customer.distinct("role",{
-      createdBy: req.userId
-    })
-
+   const contactTypes = await Customer.distinct("contactType", {
+  createdBy: req.userId,
+});
     const designations = await Customer.distinct("designation",{
       createdBy: req.userId
     })
@@ -57,7 +56,7 @@ const getCustomerFilter = async(req, res) => {
     res.json({
       success: true,
       data: {
-        locations, roles, designations
+        locations, contactTypes, designations
       }
     })
   }catch(error){

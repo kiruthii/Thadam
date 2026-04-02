@@ -45,52 +45,31 @@ const AddCustomerPage = () => {
       const [firstname, lastname] = data.fullname.split(" ");
       data.firstname = firstname;
       data.lastname = lastname || "";
-    try {
-      if (customer) {
-        updateCustomer({
-          id: customer._id,
-          data,
-        });
-
-        gooeyToast.success("Customer updated successfully ");
-      } else {
-        addCustomer(data);
-
-        gooeyToast.success("Customer added successfully ");
-      }
-
-      navigate("/");
-    } catch (error) {
-      const message=error?.respone?.data?.message||`Something went wrong `
-      gooeyToast.error(message);
-      console.log(error);
     }
 
     if (customer) {
-      updateCustomer.mutate(
+      updateCustomer(
         { id: customer._id, data },
         {
           onSuccess: () => {
             gooeyToast.success("Customer updated successfully");
-            setTimeout(() => {
-              navigate("/");
-            }, 1500);
+            setTimeout(() => navigate("/"), 1500);
           },
-          onError: () => {
-            gooeyToast.error("Update failed");
+          onError: (error) => {
+            const message = error?.response?.data?.message || "Update failed";
+            gooeyToast.error(message);
           },
         },
       );
     } else {
-      addCustomer.mutate(data, {
+      addCustomer(data, {
         onSuccess: () => {
           gooeyToast.success("Customer added successfully");
-          setTimeout(() => {
-            navigate("/");
-          }, 1500);
+          setTimeout(() => navigate("/"), 1500);
         },
-        onError: () => {
-          gooeyToast.error("Add failed");
+        onError: (error) => {
+          const message = error?.response?.data?.message || "Add failed";
+          gooeyToast.error(message);
         },
       });
     }
@@ -100,7 +79,7 @@ const AddCustomerPage = () => {
     <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="card shadow" style={{ width: "589px", height: "541px" }}>
         <div className="card-header d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Add Contact</h5>
+          <h5 className="mb-0">{customer ? "Edit Contact" : "Add Contact"}</h5>
           <button className="btn-close" onClick={() => navigate("/")}></button>
         </div>
 
@@ -112,7 +91,7 @@ const AddCustomerPage = () => {
             }`}
             onClick={() => setTab("quick")}
           >
-            ⚡ Quick Add
+           Quick Add
           </button>
 
           <button
@@ -122,7 +101,7 @@ const AddCustomerPage = () => {
             }`}
             onClick={() => setTab("full")}
           >
-            📄 Full Details
+             Full Details
           </button>
         </div>
 
@@ -166,7 +145,9 @@ const AddCustomerPage = () => {
                   <label className="form-label">Phone</label>
                   <input
                     type="text"
-                    className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""}`}
+                    className={`form-control ${
+                      errors.primaryContactNo ? "is-invalid" : ""
+                    }`}
                     {...register("primaryContactNo", {
                       required: "Phone required",
                       pattern: {
@@ -175,7 +156,9 @@ const AddCustomerPage = () => {
                       },
                     })}
                   />
-                  <div className="invalid-feedback">{errors.primaryContactNo?.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.primaryContactNo?.message}
+                  </div>
                 </div>
 
                 <div className="col-md-6 mb-3">
