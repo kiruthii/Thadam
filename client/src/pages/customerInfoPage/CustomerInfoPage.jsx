@@ -14,7 +14,6 @@ const CustomerInfoPage = () => {
     const fetchCustomer = async () => {
       try {
         const data = await getCustomerById(id);
-        console.log(data);
         setCustomer(data);
       } catch (err) {
         setError(err.message);
@@ -24,7 +23,9 @@ const CustomerInfoPage = () => {
   }, [id]);
 
   const navigate = useNavigate();
-
+  const handleEdit = (customer) => {
+    navigate("/add-customer-form", { state: customer });
+  };
   if (error) {
     return (
       <div className="text-center mt-5 text-danger ">
@@ -34,7 +35,12 @@ const CustomerInfoPage = () => {
   }
 
   if (!customer) {
-    return <h3 className="text-center mt-5">Loading...</h3>;
+    return (
+    <div className="d-flex flex-column  justify-content-center align-items-center vh-100 ">
+      <div className="spinner-border text-primary mb-2"></div>
+      <p >Loading...</p>
+    </div>
+  );
   }
   return (
     <div className="container-fluid px-0">
@@ -43,6 +49,14 @@ const CustomerInfoPage = () => {
         style={{ backgroundColor: "#eef2ff", color: "#2563eb" }}
       >
         <CustomerHeader customer={customer} />
+        
+        <Button
+          buttonText="Edit"
+          className="btn btn-primary ms-4"
+          onClick={() => handleEdit(customer)}
+          icon={<i className="me-2 bi bi-pencil-square"></i>}
+        ></Button>
+        
       </div>
       <div>
         <div
@@ -66,6 +80,7 @@ const CustomerInfoPage = () => {
         buttonText="Back to Dashboard"
         className="btn btn-primary mt-3 ms-4"
         onClick={() => navigate("/")}
+        icon={<i className=" me-2 fa-solid fa-arrow-left"></i>}
       ></Button>
     </div>
   );

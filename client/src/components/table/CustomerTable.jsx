@@ -12,10 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
 import Button from "../button/Button";
 
-
-
 const CustomerTable = () => {
-  const { customers, deleteCustomer, search, setSearch ,totalCustomers} = useContext(CustomerTableContext);
+  const { customers, deleteCustomer, search, setSearch, totalCustomers } =
+    useContext(CustomerTableContext);
 
   const navigate = useNavigate();
 
@@ -28,69 +27,77 @@ const CustomerTable = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
-  const columns = useMemo(() => [
-    {
-      header: "Profile",
-      cell: ({ row }) => {
-        const customer = row.original;
+  const columns = useMemo(
+    () => [
+      {
+        header: "Profile",
+        cell: ({ row }) => {
+          const customer = row.original;
 
-        return (
-          <div
-            className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
-            style={{ width: "30px", height: "30px", fontSize: "12px" }}
-          >
-            {customer?.firstname?.[0]}
-            {customer?.lastname?.[0]}
-          </div>
-        );
+          return (
+            <div
+              className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
+              style={{ width: "30px", height: "30px", fontSize: "12px" }}
+            >
+              {customer?.firstname?.[0]}
+              {customer?.lastname?.[0]}
+            </div>
+          );
+        },
       },
-    },
-    {
-      header: "Name",
-      accessorFn: (row) => `${row.firstname} ${row.lastname}`,
-    },
-    {
-      header: "Email",
-      accessorKey: "primaryEmail",
-    },
-    {
-      header: "Designation",
-      accessorKey: "designation",
-    },
-    {
-      header: "PhoneNo",
-      accessorKey: "primaryContactNo",
-    },
-    {
-      header: "Actions",
-      cell: ({ row }) => {
-        const customer = row.original;
-
-        return (
-          <div className="d-flex gap-2">
-            <Button
-              className="btn btn-sm btn-warning"
-              onClick={() => handleEdit(customer)}
-              icon={<i className="fa-regular fa-pen-to-square"></i>}
-            />
-
-            <Button
-              className="btn btn-sm btn-danger"
-              onClick={() => openDeleteConfirm(customer._id)}
-              icon={<i className="fa-regular fa-trash-can"></i>}
-            />
-
-            <Button
-              className="btn btn-sm btn-secondary"
-              onClick={() => handleClick(row)}
-              icon={<i className="fa-regular fa-eye"></i>}
-            />
-          </div>
-        );
+      {
+        header: "Name",
+        accessorFn: (row) => `${row.firstname} ${row.lastname}`,
       },
-    },
-  ], []);
+      {
+        header: "Email",
+        accessorKey: "primaryEmail",
+      },
+      {
+        header: "Designation",
+        accessorKey: "designation",
+      },
+      {
+        header: "PhoneNo",
+        accessorKey: "primaryContactNo",
+      },
+      {
+        header: "Actions",
+        cell: ({ row }) => {
+          const customer = row.original;
 
+          return (
+            <div className="d-flex gap-2">
+              <Button
+                className="btn btn-sm btn-warning"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEdit(customer);
+                }}
+                icon={<i className="fa-regular fa-pen-to-square"></i>}
+              />
+
+              <Button
+                className="btn btn-sm btn-danger"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openDeleteConfirm(customer._id);
+                }}
+                icon={<i className="fa-regular fa-trash-can"></i>}
+              />
+
+              {/* <Button
+                className="btn btn-sm btn-secondary"
+                onClick={() => handleClick(row)}
+                icon={<i className="fa-regular fa-eye"></i>}
+              /> */}
+            </div>
+          );
+        },
+      },
+    ],
+    [],
+  );
 
   const table = useReactTable({
     data,
@@ -116,8 +123,6 @@ const CustomerTable = () => {
   const confirmDelete = () => {
     deleteCustomer(customerToDelete);
 
-   
-
     setShowConfirm(false);
     setCustomerToDelete(null);
   };
@@ -133,7 +138,6 @@ const CustomerTable = () => {
 
   return (
     <div className="container-fluid mt-3">
-      
       <div className="row mb-4">
         <div className="col-md-3">
           <div className="card shadow-sm border-0">
@@ -145,7 +149,6 @@ const CustomerTable = () => {
         </div>
       </div>
 
-     
       <div className="d-flex justify-content-end gap-3 mb-3">
         <input
           className="form-control w-auto"
@@ -160,7 +163,6 @@ const CustomerTable = () => {
         </button>
       </div>
 
-      
       <div className="table-responsive">
         <table className="table table-hover table-bordered align-middle">
           <thead className="table-light">
@@ -170,7 +172,7 @@ const CustomerTable = () => {
                   <th key={header.id}>
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </th>
                 ))}
@@ -180,13 +182,14 @@ const CustomerTable = () => {
 
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr
+                key={row.id}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleClick(row)}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
               </tr>
@@ -195,7 +198,6 @@ const CustomerTable = () => {
         </table>
       </div>
 
-     
       <div className="d-flex gap-2 mt-3">
         <button
           className="btn btn-outline-secondary btn-sm"
