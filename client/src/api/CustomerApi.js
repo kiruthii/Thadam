@@ -18,7 +18,7 @@ export const getCustomers = async (search) => {
   const url = search
     ? `${API_URL}?search=${search}`
     : API_URL;
-
+    
   const res = await axios.get(url, getAuthConfig());
   return res.data.data;
 };

@@ -1,4 +1,4 @@
-import { createContext, useState} from "react";
+import { createContext, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getCustomers,
@@ -6,58 +6,58 @@ import {
   updateCustomer,
   deleteCustomer,
 } from "../api/CustomerApi";
+
 export const CustomerTableContext = createContext();
+
 export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState()
+  const [search, setSearch] = useState();
+
   const {
     data: customers = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["customers",search],
+    queryKey: ["customers", search],
     queryFn: () => getCustomers(search),
   });
- 
+
   const addCustomerMutation = useMutation({
     mutationFn: addCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries(["customers"]);
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
   });
- 
+
   const updateCustomerMutation = useMutation({
     mutationFn: updateCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries(["customers"]);
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
   });
- 
+
   const deleteCustomerMutation = useMutation({
-  mutationFn: (id) => deleteCustomer(id),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["customers"] });
-  },
-});
- 
+    mutationFn: (id) => deleteCustomer(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
+    },
+  });
+
   return (
-    <div>
-      <CustomerTableContext.Provider
-        value={{
-          customers,
-          isLoading,
-          error,
-          totalCustomers:customers.length??0,
-          search,
-          setSearch,
-          addCustomer: addCustomerMutation.mutate,
-          updateCustomer: updateCustomerMutation.mutate,
-          deleteCustomer: deleteCustomerMutation.mutate,
-        }}
-      >
-        {children}
-      </CustomerTableContext.Provider>
-    </div>
+    <CustomerTableContext.Provider
+      value={{
+        customers,
+        isLoading,
+        error,
+        totalCustomers: customers.length ?? 0,
+        search,
+        setSearch,
+        addCustomer: addCustomerMutation,
+        updateCustomer: updateCustomerMutation,
+        deleteCustomer: deleteCustomerMutation,
+      }}
+    >
+      {children}
+    </CustomerTableContext.Provider>
   );
 };
- 
