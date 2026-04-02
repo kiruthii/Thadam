@@ -1,4 +1,4 @@
-import React from "react";
+
 import thadam from "../../assets/thadamLogo.svg";
 import Button from "../../components/button/Button";
 const VITE_BACKEND_LIVE_BASE_URL = import.meta.env.VITE_BACKEND_LIVE_BASE_URL;

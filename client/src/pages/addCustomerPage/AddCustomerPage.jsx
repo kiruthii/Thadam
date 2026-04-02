@@ -45,6 +45,25 @@ const AddCustomerPage = () => {
       const [firstname, lastname] = data.fullname.split(" ");
       data.firstname = firstname;
       data.lastname = lastname || "";
+    try {
+      if (customer) {
+        updateCustomer({
+          id: customer._id,
+          data,
+        });
+
+        gooeyToast.success("Customer updated successfully ");
+      } else {
+        addCustomer(data);
+
+        gooeyToast.success("Customer added successfully ");
+      }
+
+      navigate("/");
+    } catch (error) {
+      const message=error?.respone?.data?.message||`Something went wrong `
+      gooeyToast.error(message);
+      console.log(error);
     }
 
     if (customer) {

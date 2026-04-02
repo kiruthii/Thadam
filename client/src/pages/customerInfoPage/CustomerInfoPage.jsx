@@ -14,7 +14,6 @@ const CustomerInfoPage = () => {
     const fetchCustomer = async () => {
       try {
         const data = await getCustomerById(id);
-        console.log(data);
         setCustomer(data);
       } catch (err) {
         setError(err.message);

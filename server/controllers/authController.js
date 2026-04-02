@@ -1,10 +1,12 @@
 const { WorkOS } = require("@workos-inc/node");
+const User = require("../models/user");
 
 const workos = new WorkOS(process.env.WORKOS_API_KEY);
 
 exports.home = (req, res) => {
   res.send("Server Started");
 };
+
 
 exports.login = (req, res) => {
   const authorizationUrl = workos.userManagement.getAuthorizationUrl({
@@ -16,8 +18,11 @@ exports.login = (req, res) => {
   res.redirect(authorizationUrl);
 };
 
+
 exports.callback = async (req, res) => {
   const { code } = req.query;
+  console.log("Code received:", code);
+
   try {
     const { user, accessToken, refreshToken } =
       await workos.userManagement.authenticateWithCode({
@@ -25,15 +30,34 @@ exports.callback = async (req, res) => {
         code,
       });
 
-    // console.log("WorkOS user object:", user);
+    console.log("WorkOS user:", user);
 
-    const name = user?.firstName || "Guest";
+ 
+    const workosId = user?.id;
+    const email = user?.email;
+    const name = user?.firstName || user.name || "Guest";
+    const image = user?.profilePictureUrl || "";
 
+   
+    let existingUser = await User.findOne({ workosId });
+
+    if (!existingUser) {
+      existingUser = await User.create({
+        workosId,
+        email,
+        name,
+        profileImage: image,
+      });
+    }
+
+  
     const redirectBaseUrl =
       process.env.NODE_ENV === "development"
         ? process.env.FRONTEND_LOCAL_BASE_URL
         : process.env.FRONTEND_LIVE_BASE_URL;
-    const redirectUri = `${redirectBaseUrl}?accessToken=${accessToken}&name=${name}`;
+
+   
+    const redirectUri = `${redirectBaseUrl}?accessToken=${accessToken}&name=${name}&image=${image}`;
 
     res.redirect(redirectUri);
   } catch (error) {
@@ -42,17 +66,47 @@ exports.callback = async (req, res) => {
   }
 };
 
+
 exports.logout = async (req, res) => {
-  const token = req.headers["authorization"] ?? "";
-  const accessToken = token.replace("Bearer ", "").trim();
-  console.log(accessToken);
-  const payload = JSON.parse(
-    Buffer.from(accessToken.split(".")[1], "base64").toString(),
-  );
-  const sessionId = payload.sid;
-  console.log(sessionId);
+  try {
+    const token = req.headers["authorization"];
 
-  await workos.userManagement.revokeSession({ sessionId });
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: "Token missing",
+      });
+    }
 
-  res.send("Logout");
+    const accessToken = token.replace("Bearer ", "").trim();
+
+   
+    const payload = JSON.parse(
+      Buffer.from(accessToken.split(".")[1], "base64").toString()
+    );
+
+    const sessionId = payload.sid;
+
+    if (!sessionId) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid session",
+      });
+    }
+
+   
+    await workos.userManagement.revokeSession({ sessionId });
+
+    res.json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Logout failed",
+    });
+  }
 };

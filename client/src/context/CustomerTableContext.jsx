@@ -5,22 +5,32 @@ import {
   addCustomer,
   updateCustomer,
   deleteCustomer,
+  getCustomerFilter,
 } from "../api/CustomerApi";
 
 export const CustomerTableContext = createContext();
 
 export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState();
-
+  const [search, setSearch] = useState()
+  const [location, setLocation] = useState()
+  const [role, setRole] = useState()
+  const [designation, setDesignation] = useState()
   const {
     data: customers = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["customers", search],
-    queryFn: () => getCustomers(search),
+    queryKey: ["customers", search, location, role, designation],
+    queryFn: () => getCustomers(search, location, role, designation),
   });
+
+  const {
+    data: filters = {},
+  } = useQuery({
+    queryKey: ["filters"],
+    queryFn: getCustomerFilter,
+  })
 
   const addCustomerMutation = useMutation({
     mutationFn: addCustomer,
@@ -44,20 +54,29 @@ export const CustomerContextProvider = ({ children }) => {
   });
 
   return (
-    <CustomerTableContext.Provider
-      value={{
-        customers,
-        isLoading,
-        error,
-        totalCustomers: customers.length ?? 0,
-        search,
-        setSearch,
-        addCustomer: addCustomerMutation,
-        updateCustomer: updateCustomerMutation,
-        deleteCustomer: deleteCustomerMutation,
-      }}
-    >
-      {children}
-    </CustomerTableContext.Provider>
+    <div>
+      <CustomerTableContext.Provider
+        value={{
+          customers,
+          isLoading,
+          error,
+          totalCustomers: customers.length ?? 0,
+          search,
+          filters,
+          location,
+          role,
+          designation,
+          setRole,
+          setDesignation,
+          setLocation,
+          setSearch,
+          addCustomer: addCustomerMutation.mutate,
+          updateCustomer: updateCustomerMutation.mutate,
+          deleteCustomer: deleteCustomerMutation.mutate,
+        }}
+      >
+        {children}
+      </CustomerTableContext.Provider>
+    </div>
   );
 };

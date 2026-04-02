@@ -11,17 +11,14 @@ import { useMemo, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
 import Button from "../button/Button";
+import CustomerControl from "./CustomerControl";
 
 
 
 const CustomerTable = () => {
-  const { customers, deleteCustomer, search, setSearch ,totalCustomers} = useContext(CustomerTableContext);
+  const { customers, deleteCustomer,totalCustomers} = useContext(CustomerTableContext);
 
   const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate("/add-customer-form");
-  };
 
   const data = useMemo(() => customers, [customers]);
 
@@ -145,20 +142,7 @@ const CustomerTable = () => {
         </div>
       </div>
 
-     
-      <div className="d-flex justify-content-end gap-3 mb-3">
-        <input
-          className="form-control w-auto"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search"
-        />
-
-        <button className="btn btn-primary" onClick={handleNavigate}>
-          <i className="fa-solid fa-plus"></i> Add Customer
-        </button>
-      </div>
+      <CustomerControl />
 
       
       <div className="table-responsive">
