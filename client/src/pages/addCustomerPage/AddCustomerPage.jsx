@@ -142,24 +142,42 @@ const AddCustomerPage = () => {
               <div className="mb-3">
                 <label className="form-label">First Name</label>
                 <input
-                  className="form-control"
-                  {...register("firstname", { required: true })}
+                  className={`form-control ${errors.firstname ? "is-invalid" : ""}`}
+                  {...register("firstname", {
+                    required: "First Name is required",
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: "first Name is required",
+                    },
+                  })}
                 />
+                <div className="invalid-feedback">
+                  {errors.firstname?.message}
+                </div>
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Last Name</label>
                 <input
-                  className="form-control"
-                  {...register("lastname", { required: true })}
+                  className={`form-control ${errors.lastname ? "is-invalid" : ""}`}
+                  {...register("lastname", {
+                    required: "Last Name is required",
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: "last Name is required",
+                    },
+                  })}
                 />
+                <div className="invalid-feedback">
+                  {errors.lastname?.message}
+                </div>
               </div>
 
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <label className="form-label">Email</label>
                   <input
-                    className="form-control"
+                    className="form-control bg-light"
                     {...register("primaryEmail")}
                   />
                 </div>
@@ -177,7 +195,9 @@ const AddCustomerPage = () => {
                       },
                     })}
                   />
-                  <div className="invalid-feedback">{errors.primaryContactNo?.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.primaryContactNo?.message}
+                  </div>
                 </div>
 
                 <div className="col-md-6 mb-3">

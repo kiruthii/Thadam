@@ -7,26 +7,24 @@ const ProfessionalDetails = ({ register, errors }) => {
 
       <div className="row">
         <div className="col-md-6 mb-3">
-          <label>Role *</label>
+          <label>Role </label>
           <select
             className={`form-select bg-light ${errors.role ? "is-invalid" : ""}`}
-            {...register("role", { required: "Role required" })}
+            {...register("role")}
           >
             {roles.map((role, i) => (
               <option key={i}>{role}</option>
             ))}
           </select>
-          <div className="invalid-feedback">{errors.role?.message}</div>
         </div>
 
         <div className="col-md-6 mb-3">
-          <label>Designation *</label>
+          <label>Designation </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}
-            {...register("designation", { required: "Required" })}
+            {...register("designation")}
           />
-          <div className="invalid-feedback">{errors.designation?.message}</div>
         </div>
 
         <div className="col-12 mb-3">
@@ -34,9 +32,8 @@ const ProfessionalDetails = ({ register, errors }) => {
           <input
             type="text"
             className={`form-control bg-light ${errors.company ? "is-invalid" : ""}`}
-            {...register("company", { required: "Required" })}
+            {...register("company")}
           />
-          <div className="invalid-feedback">{errors.company?.message}</div>
         </div>
       </div>
     </>

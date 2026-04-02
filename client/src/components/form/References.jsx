@@ -9,19 +9,17 @@ const References = ({ register, errors }) => {
           <input
             type="date"
             className={`form-control bg-light ${errors.lastContactedDate ? "is-invalid" : ""}`}
-            {...register("lastContactedDate", { required: "Required" })}
+            {...register("lastContactedDate")}
           />
-          <div className="invalid-feedback">{errors.lastContactedDate?.message}</div>
         </div>
 
         <div className="col-md-6 mb-3">
-          <label>Referred By *</label>
+          <label>Referred By </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.referredBy ? "is-invalid" : ""}`}
-            {...register("referredBy", { required: "Required" })}
+            {...register("referredBy")}
           />
-          <div className="invalid-feedback">{errors.referredBy?.message}</div>
         </div>
       </div>
     </>
