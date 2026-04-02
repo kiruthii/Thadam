@@ -3,53 +3,41 @@ const roles = ["Lead", "Prospect", "Client", "Partner"];
 const ProfessionalDetails = ({ register, errors }) => {
   return (
     <>
-      <div className="mb-3">
-        <label className="form-label">Company : <span className="text-danger">*</span></label>
-        <input
-          type="text"
-          className={`form-control bg-light ${errors.company ? "is-invalid" : ""}`}
-          {...register("company", {
-            required: "Company is required",
-          })}
-        />
+      <h6 className="section-title primary-text">PROFESSIONAL INFO</h6>
 
-        {errors.company && (
-          <div className="invalid-feedback">{errors.company.message}</div>
-        )}
-      </div>
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <label>Role *</label>
+          <select
+            className={`form-select bg-light ${errors.role ? "is-invalid" : ""}`}
+            {...register("role", { required: "Role required" })}
+          >
+            {roles.map((role, i) => (
+              <option key={i}>{role}</option>
+            ))}
+          </select>
+          <div className="invalid-feedback">{errors.role?.message}</div>
+        </div>
 
-      <div className="mb-3">
-        <label className="form-label">Role :<span className="text-danger">*</span></label>
-        <select
-          className={`form-select bg-light ${errors.role ? "is-invalid" : ""}`}
-          {...register("role", { required: "Role is required" })}
-          defaultValue="Prospect"
-        >
-          {roles.map((role, index) => (
-            <option key={index} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
+        <div className="col-md-6 mb-3">
+          <label>Designation *</label>
+          <input
+            type="text"
+            className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}
+            {...register("designation", { required: "Required" })}
+          />
+          <div className="invalid-feedback">{errors.designation?.message}</div>
+        </div>
 
-        {errors.role && (
-          <div className="invalid-feedback">{errors.role.message}</div>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label">Designation: <span className="text-danger">*</span></label>
-        <input
-          type="text"
-          className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}
-          {...register("designation", {
-            required: "Designation is required",
-          })}
-        />
-
-        {errors.designation && (
-          <div className="invalid-feedback">{errors.designation.message}</div>
-        )}
+        <div className="col-12 mb-3">
+          <label>Company *</label>
+          <input
+            type="text"
+            className={`form-control bg-light ${errors.company ? "is-invalid" : ""}`}
+            {...register("company", { required: "Required" })}
+          />
+          <div className="invalid-feedback">{errors.company?.message}</div>
+        </div>
       </div>
     </>
   );

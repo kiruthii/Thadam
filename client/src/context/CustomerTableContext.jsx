@@ -35,14 +35,14 @@ export const CustomerContextProvider = ({ children }) => {
   const addCustomerMutation = useMutation({
     mutationFn: addCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries(["customers"]);
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
   });
 
   const updateCustomerMutation = useMutation({
     mutationFn: updateCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries(["customers"]);
+      queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
   });
 

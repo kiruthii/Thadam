@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
 import { gooeyToast } from "goey-toast";
+
 import {
   ContactDetails,
   LocationDetails,
@@ -10,42 +11,34 @@ import {
   ProfessionalDetails,
   References,
   Socials,
-  TimeLine,
-  Button
 } from "../../components";
-
 
 const AddCustomerPage = () => {
   const {
     register,
     handleSubmit,
-    trigger,
     reset,
     formState: { errors },
   } = useForm();
 
-  const [step, setStep] = useState(1);
+  const [tab, setTab] = useState("quick");
+
   const navigate = useNavigate();
   const location = useLocation();
   const customer = location.state;
 
   const { addCustomer, updateCustomer } = useContext(CustomerTableContext);
 
-  const handleNavigate = () => {
-    navigate('/')
-  }
- 
-useEffect(() => {
-  if (customer) {
-    reset({
-      ...customer,
-      lastContactedDate: customer.lastContactedDate
-        ? customer.lastContactedDate.split("T")[0]
-        : "",
-    });
-  }
-}, [customer, reset]);
- 
+  useEffect(() => {
+    if (customer) {
+      reset({
+        ...customer,
+        lastContactedDate: customer.lastContactedDate
+          ? customer.lastContactedDate.split("T")[0]
+          : "",
+      });
+    }
+  }, [customer, reset]);
 
   const onSubmit = (data) => {
     try {
@@ -67,172 +60,171 @@ useEffect(() => {
       const message=error?.respone?.data?.message||`Something went wrong `
       gooeyToast.error(message);
       console.log(error);
-    }
-  };
 
-  const nextStep = async () => {
-    const valid = await trigger();
-    if (valid) {
-      setStep((prev) => prev + 1);
+      
+    if (data.fullname) {
+      const [firstname, lastname] = data.fullname.split(" ");
+      data.firstname = firstname;
+      data.lastname = lastname || "";
     }
-  };
 
-  const previousStep = () => {
-    setStep(step - 1);
+    if (customer) {
+      updateCustomer.mutate(
+        { id: customer._id, data },
+        {
+          onSuccess: () => {
+            gooeyToast.success("Customer updated successfully");
+            setTimeout(() => {
+              navigate("/");
+            }, 1500);
+          },
+          onError: () => {
+            gooeyToast.error("Update failed");
+          },
+        },
+      );
+    } else {
+      addCustomer.mutate(data, {
+        onSuccess: () => {
+          gooeyToast.success("Customer added successfully");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+        },
+        onError: () => {
+          gooeyToast.error("Add failed");
+        },
+      });
+    }
   };
 
   return (
-    <>
-      <style>
-        {`
-        .fixed-container {
-          width: 700px;
-          height: 600px;
-          overflow: auto;
-        }
-      `}
-      </style>
+    <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
+      <div className="card shadow" style={{ width: "589px", height: "541px" }}>
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">Add Contact</h5>
+          <button className="btn-close" onClick={() => navigate("/")}></button>
+        </div>
 
-      <div
-        className="min-vh-100 d-flex justify-content-center align-items-center"
-        style={{ backgroundColor: "#eef2ff" }}
-      >
-        <div className="fixed-container bg-white rounded p-4 shadow">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="d-flex flex-column h-100"
+        <div className="d-flex gap-2 p-3">
+          <button
+            type="button"
+            className={`btn w-50 ${
+              tab === "quick" ? "btn-primary" : "btn-outline-secondary"
+            }`}
+            onClick={() => setTab("quick")}
           >
-            <TimeLine step={step} />
+            ⚡ Quick Add
+          </button>
 
-            {step === 1 && (
-              <div className="d-flex flex-column flex-grow-1">
-                <h4 className="text-center">Personal Information</h4>
+          <button
+            type="button"
+            className={`btn w-50 ${
+              tab === "full" ? "btn-primary" : "btn-outline-secondary"
+            }`}
+            onClick={() => setTab("full")}
+          >
+            📄 Full Details
+          </button>
+        </div>
 
-                <PersonalDetails register={register} errors={errors} />
-                <ProfessionalDetails register={register} errors={errors} />
+        <form
+          id="form"
+          onSubmit={handleSubmit(onSubmit)}
+          className="card-body overflow-auto mt-3"
+        >
+          {tab === "quick" && (
+            <>
+              <h6 className="text-primary border-bottom pb-2 mb-3">
+                ESSENTIAL INFO
+              </h6>
 
-                <div className="d-flex justify-content-end mt-auto">
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className="btn btn-primary"
-                    buttonText="Next"
+              <div className="mb-3">
+                <label className="form-label">First Name</label>
+                <input
+                  className="form-control"
+                  {...register("firstname", { required: true })}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Last Name</label>
+                <input
+                  className="form-control"
+                  {...register("lastname", { required: true })}
+                />
+              </div>
+
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Email</label>
+                  <input
+                    className="form-control"
+                    {...register("primaryEmail")}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Phone</label>
+                  <input
+                    type="text"
+                    className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""}`}
+                    {...register("primaryContactNo", {
+                      required: "Phone required",
+                      pattern: {
+                        value: /^[0-9]{10}$/,
+                        message: "Must be 10 digits",
+                      },
+                    })}
+                  />
+                  <div className="invalid-feedback">{errors.primaryContactNo?.message}</div>
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Designation</label>
+                  <input
+                    className="form-control"
+                    {...register("designation")}
                   />
                 </div>
               </div>
-            )}
+            </>
+          )}
 
-            {step === 2 && (
-              <div className="d-flex flex-column flex-grow-1">
-                <h4 className="text-center">Contact Details</h4>
+          {tab === "full" && (
+            <>
+              <PersonalDetails register={register} errors={errors} />
+              <ContactDetails register={register} errors={errors} />
+              <ProfessionalDetails register={register} errors={errors} />
+              <LocationDetails register={register} errors={errors} />
+              <References register={register} errors={errors} />
+              <Socials register={register} />
+            </>
+          )}
+        </form>
 
-                <ContactDetails register={register} errors={errors} />
+        <div className="card-footer d-flex justify-content-end gap-2">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="btn btn-outline-secondary"
+          >
+            Cancel
+          </button>
 
-                <div className="d-flex justify-content-between mt-auto">
-                  <Button
-                    type="button"
-                    onClick={previousStep}
-                    className="btn btn-secondary"
-                    buttonText="Previous"
-                  />
-
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className="btn btn-primary"
-                    buttonText="Next"
-                  />
-                </div>
-              </div>
-            )}
-
-            {step === 3 && (
-              <div className="d-flex flex-column flex-grow-1">
-                <h4 className="text-center">Address Details</h4>
-
-                <LocationDetails register={register} errors={errors} />
-
-                <div className="d-flex justify-content-between mt-auto">
-                  <Button
-                    type="button"
-                    onClick={previousStep}
-                    className="btn btn-secondary"
-                    buttonText="Previous"
-                  />
-
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className="btn btn-primary"
-                    buttonText="Next"
-                  />
-                </div>
-              </div>
-            )}
-
-            {step === 4 && (
-              <div className="d-flex flex-column flex-grow-1">
-                <h4 className="text-center">References</h4>
-                <References  register={register} errors={errors} />
-                <div className="d-flex justify-content-between mt-auto">
-                  <Button
-                    type="button"
-                    onClick={previousStep}
-                    className="btn btn-secondary"
-                    buttonText="Previous"
-                  />
-
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className="btn btn-primary"
-                    buttonText="Next"
-                  />
-                </div>
-              </div>
-            )}
-
-            {step === 5 && (
-              <div className="d-flex flex-column flex-grow-1">
-                <h4 className="text-center">Social Media</h4>
-
-                <Socials register={register} errors={errors} />
-
-                <div className="mt-auto">
-                  <div className="row align-items-center">
-                    <div className="col text-start">
-                      <Button
-                        type="button"
-                        onClick={handleNavigate}
-                        buttonText="Cancel"
-                        className="btn btn-danger"
-                      />
-                    </div>
-
-                    <div className="col text-center">
-                      <Button
-                        type="button"
-                        onClick={previousStep}
-                        className="btn btn-secondary"
-                        buttonText="Previous"
-                      />
-                    </div>
-
-                    <div className="col text-end">
-                      <Button
-                        type="submit"
-                        buttonText={customer ? "Update" : "Submit"}
-                        className="btn btn-success"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </form>
+          <button
+            type="submit"
+            form="form"
+            className="btn btn-primary"
+            disabled={addCustomer.isPending || updateCustomer.isPending}
+          >
+            {addCustomer.isPending || updateCustomer.isPending
+              ? "Saving..."
+              : "Save Contact"}
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
