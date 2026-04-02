@@ -18,22 +18,13 @@ const ContactDetails = ({ register, errors }) => {
           <label>Secondary Email</label>
           <input
             type="email"
-            className={`form-control bg-light ${errors.secondaryEmail ? "is-invalid" : ""}`}
-            {...register("secondaryEmail", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Enter a valid email address",
-              },
-            })}
+            className="form-control bg-light"
+            {...register("secondaryEmail")}
           />
-          <div className="invalid-feedback">
-            {errors.secondaryEmail?.message}
-          </div>
         </div>
 
         <div className="col-md-6 mb-3">
-          <label>Primary Phone </label>
+          <label>Primary Phone *</label>
           <input
             type="text"
             className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""}`}

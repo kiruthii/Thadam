@@ -12,17 +12,17 @@ export const CustomerTableContext = createContext();
 
 export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState()
-  const [location, setLocation] = useState()
-  const [role, setRole] = useState()
-  const [designation, setDesignation] = useState()
+ const [search, setSearch] = useState("");
+const [location, setLocation] = useState("");
+const [contactTypes, setContactTypes] = useState("");
+const [designation, setDesignation] = useState("");
   const {
     data: customers = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["customers", search, location, role, designation],
-    queryFn: () => getCustomers(search, location, role, designation),
+    queryKey: ["customers", search, location, contactTypes, designation],
+    queryFn: () => getCustomers(search, location, contactTypes, designation),
   });
 
   const {
@@ -64,9 +64,9 @@ export const CustomerContextProvider = ({ children }) => {
           search,
           filters,
           location,
-          role,
+         contactTypes,
           designation,
-          setRole,
+          setContactTypes,
           setDesignation,
           setLocation,
           setSearch,

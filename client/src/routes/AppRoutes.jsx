@@ -29,7 +29,7 @@ const AppRoutes = () => {
         <Route index element={<DashboardPage />} />
       </Route>
       <Route
-        path="/add-customer-form"
+        path="/add-contact-form"
         element={
           <AuthGuard>
             <AddCustomerPage />

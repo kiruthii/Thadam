@@ -29,6 +29,7 @@ const AddCustomerPage = () => {
 
   const { addCustomer, updateCustomer } = useContext(CustomerTableContext);
 
+  // ✅ Prefill data when editing
   useEffect(() => {
     if (customer) {
       reset({
@@ -40,28 +41,9 @@ const AddCustomerPage = () => {
     }
   }, [customer, reset]);
 
+  // ✅ Submit Handler (FIXED)
   const onSubmit = (data) => {
-    try {
-      if (customer) {
-        updateCustomer({
-          id: customer._id,
-          data,
-        });
-
-        gooeyToast.success("Customer updated successfully ");
-      } else {
-        addCustomer(data);
-
-        gooeyToast.success("Customer added successfully ");
-      }
-
-      navigate("/");
-    } catch (error) {
-      const message=error?.respone?.data?.message||`Something went wrong `
-      gooeyToast.error(message);
-      console.log(error);
-
-      
+    // handle fullname split if exists
     if (data.fullname) {
       const [firstname, lastname] = data.fullname.split(" ");
       data.firstname = firstname;
@@ -69,30 +51,32 @@ const AddCustomerPage = () => {
     }
 
     if (customer) {
-      updateCustomer.mutate(
+      // 🔄 Update
+      updateCustomer(
         { id: customer._id, data },
         {
           onSuccess: () => {
             gooeyToast.success("Customer updated successfully");
-            setTimeout(() => {
-              navigate("/");
-            }, 1500);
+            setTimeout(() => navigate("/"), 1500);
           },
-          onError: () => {
-            gooeyToast.error("Update failed");
+          onError: (error) => {
+            const message =
+              error?.response?.data?.message || "Update failed";
+            gooeyToast.error(message);
           },
-        },
+        }
       );
     } else {
-      addCustomer.mutate(data, {
+      // ➕ Add
+      addCustomer(data, {
         onSuccess: () => {
           gooeyToast.success("Customer added successfully");
-          setTimeout(() => {
-            navigate("/");
-          }, 1500);
+          setTimeout(() => navigate("/"), 1500);
         },
-        onError: () => {
-          gooeyToast.error("Add failed");
+        onError: (error) => {
+          const message =
+            error?.response?.data?.message || "Add failed";
+          gooeyToast.error(message);
         },
       });
     }
@@ -101,11 +85,18 @@ const AddCustomerPage = () => {
   return (
     <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="card shadow" style={{ width: "589px", height: "541px" }}>
+        {/* Header */}
         <div className="card-header d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Add Contact</h5>
-          <button className="btn-close" onClick={() => navigate("/")}></button>
+          <h5 className="mb-0">
+            {customer ? "Edit Contact" : "Add Contact"}
+          </h5>
+          <button
+            className="btn-close"
+            onClick={() => navigate("/")}
+          ></button>
         </div>
 
+        {/* Tabs */}
         <div className="d-flex gap-2 p-3">
           <button
             type="button"
@@ -128,11 +119,13 @@ const AddCustomerPage = () => {
           </button>
         </div>
 
+        {/* Form */}
         <form
           id="form"
           onSubmit={handleSubmit(onSubmit)}
           className="card-body overflow-auto mt-3"
         >
+          {/* QUICK TAB */}
           {tab === "quick" && (
             <>
               <h6 className="text-primary border-bottom pb-2 mb-3">
@@ -142,42 +135,24 @@ const AddCustomerPage = () => {
               <div className="mb-3">
                 <label className="form-label">First Name</label>
                 <input
-                  className={`form-control ${errors.firstname ? "is-invalid" : ""}`}
-                  {...register("firstname", {
-                    required: "First Name is required",
-                    pattern: {
-                      value: /^[A-Za-z]+$/,
-                      message: "first Name is required",
-                    },
-                  })}
+                  className="form-control"
+                  {...register("firstname", { required: true })}
                 />
-                <div className="invalid-feedback">
-                  {errors.firstname?.message}
-                </div>
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Last Name</label>
                 <input
-                  className={`form-control ${errors.lastname ? "is-invalid" : ""}`}
-                  {...register("lastname", {
-                    required: "Last Name is required",
-                    pattern: {
-                      value: /^[A-Za-z]+$/,
-                      message: "last Name is required",
-                    },
-                  })}
+                  className="form-control"
+                  {...register("lastname", { required: true })}
                 />
-                <div className="invalid-feedback">
-                  {errors.lastname?.message}
-                </div>
               </div>
 
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <label className="form-label">Email</label>
                   <input
-                    className="form-control bg-light"
+                    className="form-control"
                     {...register("primaryEmail")}
                   />
                 </div>
@@ -186,7 +161,9 @@ const AddCustomerPage = () => {
                   <label className="form-label">Phone</label>
                   <input
                     type="text"
-                    className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""}`}
+                    className={`form-control ${
+                      errors.primaryContactNo ? "is-invalid" : ""
+                    }`}
                     {...register("primaryContactNo", {
                       required: "Phone required",
                       pattern: {
@@ -211,6 +188,7 @@ const AddCustomerPage = () => {
             </>
           )}
 
+          {/* FULL TAB */}
           {tab === "full" && (
             <>
               <PersonalDetails register={register} errors={errors} />
@@ -223,6 +201,7 @@ const AddCustomerPage = () => {
           )}
         </form>
 
+        {/* Footer */}
         <div className="card-footer d-flex justify-content-end gap-2">
           <button
             type="button"
@@ -236,7 +215,9 @@ const AddCustomerPage = () => {
             type="submit"
             form="form"
             className="btn btn-primary"
-            disabled={addCustomer.isPending || updateCustomer.isPending}
+            disabled={
+              addCustomer.isPending || updateCustomer.isPending
+            }
           >
             {addCustomer.isPending || updateCustomer.isPending
               ? "Saving..."

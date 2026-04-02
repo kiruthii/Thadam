@@ -1,40 +1,82 @@
-const roles = ["Lead", "Prospect", "Client", "Partner"];
+import { useState } from "react";
 
-const ProfessionalDetails = ({ register, errors }) => {
+const contactTypes = ["Lead", "Prospect", "Client", "Networking","Partner","Referral", "Other"];
+
+const ProfessionalDetails = ({ register, errors, setValue }) => {
+  const [selectedType, setSelectedType] = useState("Prospect");
+
+  const handleTypeChange = (e) => {
+    const value = e.target.value;
+    setSelectedType(value);
+
+    if (value !== "Other") {
+      setValue("contactType", value, { shouldValidate: true });
+    }
+  };
+
   return (
     <>
-      <h6 className="section-title primary-text">PROFESSIONAL INFO</h6>
+      <div className="mb-3">
+        <label className="form-label">Company :</label>
+        <input
+          type="text"
+          className={`form-control bg-light ${errors.company ? "is-invalid" : ""}`}
+          {...register("company")}
+        />
+      </div>
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <label>Role </label>
-          <select
-            className={`form-select bg-light ${errors.role ? "is-invalid" : ""}`}
-            {...register("role")}
-          >
-            {roles.map((role, i) => (
-              <option key={i}>{role}</option>
-            ))}
-          </select>
-        </div>
+      <div className="mb-3">
+        <label className="form-label">
+          Contact Type : <span className="text-danger">*</span>
+        </label>
 
-        <div className="col-md-6 mb-3">
-          <label>Designation </label>
+        <input
+          type="hidden"
+          {...register("contactType", {
+            required: "Contact Type is required",
+          })}
+        />
+
+        <select
+          className={`form-select bg-light ${errors.contactType ? "is-invalid" : ""}`}
+          onChange={handleTypeChange}
+          value={selectedType}
+        >
+          {contactTypes.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+
+        {selectedType === "Other" && (
           <input
             type="text"
-            className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}
-            {...register("designation")}
+            placeholder="Enter custom type"
+            className="form-control mt-2"
+            {...register("contactType", {
+              required: "Contact Type is required",
+            })}
           />
-        </div>
+        )}
 
-        <div className="col-12 mb-3">
-          <label>Company *</label>
-          <input
-            type="text"
-            className={`form-control bg-light ${errors.company ? "is-invalid" : ""}`}
-            {...register("company")}
-          />
-        </div>
+        {errors.contactType && (
+          <div className="invalid-feedback">{errors.contactType.message}</div>
+        )}
+      </div>
+
+    
+      <div className="mb-3">
+        <label className="form-label">
+          Designation: <span className="text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}
+          {...register("designation", {
+            required: "Designation is required",
+          })}
+        />
       </div>
     </>
   );

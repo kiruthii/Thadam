@@ -14,11 +14,10 @@ const customerSchema = new mongoose.Schema(
     secondaryEmail: { type: String, lowercase: true },
     primaryContactNo: { type: String, required: true },
     secondaryContactNo: { type: String },
-    role: {
-      type: String,
-      enum: ["Lead", "Prospect", "Client", "Partner"],
-      default: "Prospect",
-    },
+   contactType: {
+  type: String,
+  default: "Prospect",
+},
     designation: { type: String },
     company: { type: String },
     address: {
