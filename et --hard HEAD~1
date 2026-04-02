@@ -1,0 +1,171 @@
+[33m4df5492[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/form-validation[m[33m, [m[1;31morigin/feature/form-validation[m[33m, [m[1;32mmaster[m[33m)[m resolve the filter error
+[33madfeda7[m added contact type
+[33m476c62a[m update the role into contact type
+[33m0505750[m Remove validation in Customerform
+[33mfee6785[m updated form UI
+[33m62af504[m Merge branch 'main' into feature/form-validation
+[33m4aceeca[m updated form UI
+[33m574e458[m Merge pull request #40 from kiruthii/feature/user-api-integration
+[33m647337c[m resolve the conflict
+[33m39d4c2a[m resolve the conflict
+[33m89b9c33[m Merge pull request #39 from kiruthii/add-filter-ui
+[33m76bc906[m  implement user profile end-to-end (DB, API, frontend integration)
+[33m6a6076d[m  implement user profile end-to-end (DB, API, frontend integration)
+[33mdecbd4d[m Add filter functionality
+[33me8257f8[m Merge pull request #38 from kiruthii/UI-Enhancement
+[33m44cfc3f[m UI Enhanced
+[33mf444ca8[m Merge pull request #37 from kiruthii/sidebar-ui
+[33m7bdce47[m enhance sidebar ui
+[33m7f52bd2[m Merge pull request #36 from kiruthii/sidebar-ui
+[33m007e0e1[m change the sidebar responsive
+[33m868ccf0[m Merge pull request #35 from kiruthii/null-coesing
+[33ma9ed573[m Fixed null coesing
+[33ma2a67c4[m Delete server/node_modules directory
+[33m50af4c0[m Delete client/.env
+[33m637877f[m Update .env
+[33ma078eb2[m Merge pull request #34 from kiruthii/goey-toast
+[33m34ccba1[m resolve conflict with current  main and change the .env variable name
+[33m467e974[m Merge pull request #33 from kiruthii/add-search
+[33md3a9d4b[m fix merge conflict and update code
+[33m3aeb918[m goey toast,refactor client code,create .env in client
+[33m5d450ac[m  add search and filter
+[33m1a52f1b[m Merge pull request #32 from kiruthii/master
+[33me2eabfc[m Update API URLs to use production endpoint
+[33m8dae2e9[m Merge pull request #31 from kiruthii/master
+[33m3c2c5ae[m Refactor API URLs to use environment variable and update LandingPage component
+[33mf17d735[m Merge pull request #30 from kiruthii/master
+[33mfa7b4e9[m Update API URLs to use production endpoint
+[33md6c35e9[m Update AppRoutes.jsx
+[33m2480e94[m Merge pull request #29 from kiruthii/delete-confirmation-dialog
+[33m40e128c[m Merge branch 'main' into delete-confirmation-dialog
+[33mf0954a3[m Merge pull request #28 from kiruthii/feature/customer-formpage-UI
+[33m0b44626[m Add delete confirmation dialog before deleting customer
+[33m023b7aa[m Changed UI for Form Page
+[33m87ee7ae[m Merge branch 'main' of https://github.com/kiruthii/Thadam into feature/customer-formpage
+[33m2684035[m Merge pull request #27 from kiruthii/bugfix/customer-details-page
+[33m0220a9f[m Merge branch 'main' into bugfix/customer-details-page
+[33mbb7969b[m Removed the unnecessary lines
+[33m6654980[m fixed the customer detail page
+[33mc2b849f[m Merge pull request #26 from kiruthii/customer-form
+[33mc7b698e[m Merge branch 'customer-form' of https://github.com/kiruthii/Thadam into feature/customer-formpage
+[33mae82baf[m Add customer form UI
+[33mbd03809[m Merge pull request #23 from kiruthii/auth-guard
+[33mc530496[m Merge branch 'main' into auth-guard
+[33mef9c974[m Merge branch 'main' of https://github.com/kiruthii/Thadam
+[33m947e3ef[m Merge pull request #25 from kiruthii/form-edit
+[33mbee2b6d[m fix: correct import path for TimeLine.css
+[33m36bf108[m fix sidebar import path
+[33mc35b26b[m Merge branch 'main' into form-edit
+[33m17f0d8a[m create the form and added the edit
+[33m3b2a5e8[m Merge pull request #24 from kiruthii/get-customer-api
+[33m91c0a33[m chore: remove .env from repository
+[33m994c94f[m chore: ignore .env file
+[33m95f5953[m Remove conflict markers from customerController
+[33m54f283a[m ft: implement auth guard for dashboard routes
+[33m556aebb[m keep correct customerController and API changes
+[33m4695c34[m Fix:multi-user customer API's and API testing
+[33m04ff348[m Merge pull request #22 from kiruthii/fix
+[33mcb76995[m fix sidebar path case issue
+[33m872d504[m Merge pull request #20 from kiruthii/delete-api-after-workos-integration
+[33md3c05ba[m Merge pull request #20 from kiruthii/delete-api-after-workos-integration
+[33mec4e64d[m updated the delete api using workos token
+[33mecc9a09[m Merge branch 'feature/get-customer-api' of https://github.com/kiruthii/Thadam into feature/get-customer-api
+[33mde02b1b[m Created Get Allcustomer API & Get CustomerById
+[33m33f5998[m Merge pull request #19 from kiruthii/refactor/workos-addcustomer
+[33m3ecf325[m Merge pull request #19 from kiruthii/refactor/workos-addcustomer
+[33m3e10cb6[m Merge branch 'main' into refactor/workos-addcustomer
+[33m49d932d[m Merge branch 'main' into refactor/workos-addcustomer
+[33m9a085ee[m conflicts resolved
+[33mda4d503[m Merge pull request #18 from kiruthii/work-os-authentication
+[33m82bf47a[m Merge pull request #18 from kiruthii/work-os-authentication
+[33m1caef78[m Merge branch 'main' into work-os-authentication
+[33m6a8e0b8[m Merge branch 'main' into work-os-authentication
+[33mccf35a2[m workos authentication is integrate with crm
+[33m919c422[m Workos integrate with CRM
+[33m6fab8e9[m Merge pull request #17 from kiruthii/addcustomer-routing
+[33m4dcf205[m Merge pull request #17 from kiruthii/addcustomer-routing
+[33ma6b0dd8[m added routing to add customer form
+[33md02f68e[m added routing to add customer form
+[33mb21b947[m Merge pull request #16 from kiruthii/feature/add-customer-form
+[33m65bb7b7[m Merge pull request #16 from kiruthii/feature/add-customer-form
+[33mbb3628a[m Added Customer Form Page
+[33ma53801a[m Added Customer Form Page
+[33mb7d6f02[m resolve the conflict in main
+[33ma92e57d[m resolve the conflict in main
+[33m74ab1b8[m resolve the conflict
+[33m38e3e4b[m resolve the conflict
+[33me86dd9d[m Merge pull request #15 from kiruthii/customer-table
+[33m1fc023c[m Merge pull request #15 from kiruthii/customer-table
+[33mcb619d9[m Merge branch 'main' into customer-table
+[33ma648794[m Merge branch 'main' into customer-table
+[33m71e5ad6[m Merge pull request #12 from kiruthii/delete-customer-api
+[33mdf306dc[m Merge pull request #12 from kiruthii/delete-customer-api
+[33m64032e9[m Merge branch 'main' into delete-customer-api
+[33m9dd6b5a[m Merge branch 'main' into delete-customer-api
+[33me90ac55[m Merge pull request #14 from kiruthii/feature/customer-detail-ui
+[33mb8e4388[m Merge pull request #14 from kiruthii/feature/customer-detail-ui
+[33m3f750aa[m Merge branch 'main' into feature/customer-detail-ui
+[33md2b78d6[m Merge branch 'main' into feature/customer-detail-ui
+[33m535d0d9[m Merge pull request #10 from kiruthii/get-customer-api
+[33mb7d70ae[m Merge pull request #10 from kiruthii/get-customer-api
+[33m0e67325[m Merge pull request #9 from kiruthii/feature/update-api
+[33m4e70fef[m Merge pull request #9 from kiruthii/feature/update-api
+[33mcfef3d0[m Created the Customer Table with tanstack table
+[33mc2543d9[m Created the Customer Table with tanstack table
+[33mea9d3e1[m Added Customer Detail Page UI
+[33mca6ef6b[m Added Customer Detail Page UI
+[33m649be50[m Merge pull request #13 from kiruthii/feature/dashboard-layout
+[33m6d14f1b[m Merge pull request #13 from kiruthii/feature/dashboard-layout
+[33mf554261[m update the folder name
+[33m13e6f04[m update the folder name
+[33m776a15c[m Added delete customer API
+[33mdfe7007[m Added delete customer API
+[33m31d8ced[m Added Customer Update API
+[33m70f956d[m Added Customer Update API
+[33m57cd208[m Added get customer API
+[33m11f7d95[m Added get customer API
+[33medff0a0[m update index.css after stash merge
+[33mbea4707[m update index.css after stash merge
+[33maff78a7[m resolved stash merge conflicts
+[33m2ecd7b3[m resolved stash merge conflicts
+[33m287827f[m resolved merge conflicts
+[33m2580290[m resolved merge conflicts
+[33m22e65e5[m Merge pull request #8 from kiruthii/feature/dashboard-layout
+[33mf94793a[m Merge pull request #8 from kiruthii/feature/dashboard-layout
+[33m0227022[m Merge pull request #7 from kiruthii/backend-setup
+[33m41279f0[m Merge pull request #7 from kiruthii/backend-setup
+[33maea6854[m Added dashboard layout with sidebar toggle and welcome content
+[33mb439bcf[m Added dashboard layout with sidebar toggle and welcome content
+[33me74f983[m add some folder
+[33md92bc3e[m add some folder
+[33mb98563d[m Added CORS
+[33m5612358[m Added CORS
+[33mec6fdff[m Merge pull request #6 from kiruthii/backend-setup
+[33m0f4b46e[m Merge pull request #6 from kiruthii/backend-setup
+[33m32daf1d[m Added cors
+[33m9f08a46[m Added cors
+[33m100e370[m Merge pull request #4 from kiruthii/feature/folder-structure
+[33m166e32e[m Merge pull request #4 from kiruthii/feature/folder-structure
+[33mcb374cd[m Merge pull request #5 from kiruthii/customer-schema
+[33m3d5ef26[m Merge pull request #5 from kiruthii/customer-schema
+[33m9006db0[m Merge pull request #3 from kiruthii/mongodb-connection
+[33m366d0b7[m Merge pull request #3 from kiruthii/mongodb-connection
+[33m303b1f8[m Created the Customer Schema
+[33ma76f330[m Created the Customer Schema
+[33m8d3778b[m Connected MongoDB Database
+[33m9e5ff7a[m Connected MongoDB Database
+[33m48c9326[m Added folder structure
+[33m888feef[m Connected MongoDB Database
+[33m2337854[m Connected MongoDB Database
+[33md4608ac[m Merge pull request #2 from kiruthii/deploy/render-backend
+[33m69d513f[m Merge pull request #2 from kiruthii/deploy/render-backend
+[33m7749df1[m package.json updated
+[33mbac32d2[m package.json updated
+[33ma368db7[m Merge pull request #1 from kiruthii/deploy/render-backend
+[33m2792d92[m Merge pull request #1 from kiruthii/deploy/render-backend
+[33mbb8fcef[m Removed node_modules and added gitignore
+[33mba05a8b[m Removed node_modules and added gitignore
+[33m76d87e0[m Add README.md with project overview and structure
+[33mf9f4def[m Add README.md with project overview and structure
+[33m38a9fb9[m Added express setup
+[33m926e7c6[m Initial Frontend setup
