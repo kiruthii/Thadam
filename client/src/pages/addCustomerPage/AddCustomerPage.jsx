@@ -29,7 +29,7 @@ const AddCustomerPage = () => {
 
   const { addCustomer, updateCustomer } = useContext(CustomerTableContext);
 
-  // ✅ Prefill data when editing
+  
   useEffect(() => {
     if (customer) {
       reset({
@@ -41,9 +41,9 @@ const AddCustomerPage = () => {
     }
   }, [customer, reset]);
 
-  // ✅ Submit Handler (FIXED)
+  
   const onSubmit = (data) => {
-    // handle fullname split if exists
+   
     if (data.fullname) {
       const [firstname, lastname] = data.fullname.split(" ");
       data.firstname = firstname;
@@ -51,7 +51,7 @@ const AddCustomerPage = () => {
     }
 
     if (customer) {
-      // 🔄 Update
+      
       updateCustomer(
         { id: customer._id, data },
         {
@@ -67,7 +67,7 @@ const AddCustomerPage = () => {
         }
       );
     } else {
-      // ➕ Add
+     
       addCustomer(data, {
         onSuccess: () => {
           gooeyToast.success("Customer added successfully");
@@ -85,7 +85,7 @@ const AddCustomerPage = () => {
   return (
     <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="card shadow" style={{ width: "589px", height: "541px" }}>
-        {/* Header */}
+       
         <div className="card-header d-flex justify-content-between align-items-center">
           <h5 className="mb-0">
             {customer ? "Edit Contact" : "Add Contact"}
@@ -96,7 +96,7 @@ const AddCustomerPage = () => {
           ></button>
         </div>
 
-        {/* Tabs */}
+        
         <div className="d-flex gap-2 p-3">
           <button
             type="button"
@@ -105,7 +105,7 @@ const AddCustomerPage = () => {
             }`}
             onClick={() => setTab("quick")}
           >
-            ⚡ Quick Add
+             Quick Add
           </button>
 
           <button
@@ -115,17 +115,17 @@ const AddCustomerPage = () => {
             }`}
             onClick={() => setTab("full")}
           >
-            📄 Full Details
+             Full Details
           </button>
         </div>
 
-        {/* Form */}
+        
         <form
           id="form"
           onSubmit={handleSubmit(onSubmit)}
           className="card-body overflow-auto mt-3"
         >
-          {/* QUICK TAB */}
+         
           {tab === "quick" && (
             <>
               <h6 className="text-primary border-bottom pb-2 mb-3">
@@ -188,7 +188,7 @@ const AddCustomerPage = () => {
             </>
           )}
 
-          {/* FULL TAB */}
+          
           {tab === "full" && (
             <>
               <PersonalDetails register={register} errors={errors} />
@@ -201,7 +201,7 @@ const AddCustomerPage = () => {
           )}
         </form>
 
-        {/* Footer */}
+       
         <div className="card-footer d-flex justify-content-end gap-2">
           <button
             type="button"
