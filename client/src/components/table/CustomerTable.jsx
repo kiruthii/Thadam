@@ -153,7 +153,7 @@ const CustomerTable = () => {
       <div className="d-flex">
       <CustomerControl table={table}/>
      </div>
-      <div className="table-responsive border rounded-3 py-1">
+      <div className="table-responsive border rounded-3">
         <table className="table table-hover align-middle p-2">
           <thead className="table-light">
             {table.getHeaderGroups().map((headerGroup) => (
