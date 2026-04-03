@@ -11,43 +11,85 @@ import { useMemo, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
 import Button from "../button/Button";
+import CustomerControl from "./CustomerControl";
+import ColumnSelector from "./ColumnSelector";
+import AddHoverButton from "../button/AddHoverButton";
+import Pagination from "./Pagination";
 
 const CustomerTable = () => {
-  const { customers, deleteCustomer, search, setSearch, totalCustomers } =
-    useContext(CustomerTableContext);
+  const { customers, deleteCustomer,totalCustomers} = useContext(CustomerTableContext);
 
   const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate("/add-customer-form");
-  };
 
   const data = useMemo(() => customers, [customers]);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
-  const columns = useMemo(
-    () => [
-      {
-        header: "Profile",
-        cell: ({ row }) => {
-          const customer = row.original;
+  const columns = useMemo(() => [
+    {
+      header: "Name",
+      cell: ({ row }) => {
+        const customer = row.original;
 
-          return (
-            <div
-              className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
-              style={{ width: "30px", height: "30px", fontSize: "12px" }}
-            >
-              {customer?.firstname?.[0]}
-              {customer?.lastname?.[0]}
+        return (
+          <div className="d-flex gap-3">
+              <div
+                className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
+                style={{ width: "30px", height: "30px", fontSize: "12px" }}
+              >
+                {customer?.firstname?.[0]}
+                {customer?.lastname?.[0]}
+              </div>
+              <div className="mt-1">
+                {customer?.firstname} {customer?.lastname}
+              </div>
             </div>
-          );
-        },
+        );
       },
-      {
-        header: "Name",
-        accessorFn: (row) => `${row.firstname} ${row.lastname}`,
+    },
+    // {
+    //   header: "Name",
+    //   accessorFn: (row) => `${row.firstname} ${row.lastname}`,
+    // },
+    {
+      header: "Email",
+      accessorKey: "primaryEmail",
+    },
+    {
+      header: "Designation",
+      accessorKey: "designation",
+    },
+    {
+      header: "PhoneNo",
+      accessorKey: "primaryContactNo",
+    },
+    {
+      header: "Actions",
+      cell: ({ row }) => {
+        const customer = row.original;
+
+        return (
+          <div className="d-flex gap-2">
+            <Button
+              className="btn btn-sm btn-warning"
+              onClick={() => handleEdit(customer)}
+              icon={<i className="fa-regular fa-pen-to-square"></i>}
+            />
+
+            <Button
+              className="btn btn-sm btn-danger"
+              onClick={() => openDeleteConfirm(customer._id)}
+              icon={<i className="fa-regular fa-trash-can"></i>}
+            />
+
+            <Button
+              className="btn btn-sm btn-secondary"
+              onClick={() => handleClick(row)}
+              icon={<i className="fa-regular fa-eye"></i>}
+            />
+          </div>
+        );
       },
       {
         header: "Email",
@@ -149,27 +191,16 @@ const CustomerTable = () => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-end gap-3 mb-3">
-        <input
-          className="form-control w-auto"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search"
-        />
-
-        <button className="btn btn-primary" onClick={handleNavigate}>
-          <i className="fa-solid fa-plus"></i> Add Customer
-        </button>
-      </div>
-
-      <div className="table-responsive">
-        <table className="table table-hover table-bordered align-middle">
+      <div className="d-flex">
+      <CustomerControl table={table}/>
+     </div>
+      <div className="table-responsive border rounded-3">
+        <table className="table table-hover align-middle p-2">
           <thead className="table-light">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
+                  <th key={header.id} className="align-middle text-center">
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
@@ -188,8 +219,11 @@ const CustomerTable = () => {
                 onClick={() => handleClick(row)}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  <td key={cell.id} className="align-middle text-center">
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
                   </td>
                 ))}
               </tr>
@@ -197,38 +231,9 @@ const CustomerTable = () => {
           </tbody>
         </table>
       </div>
-
-      <div className="d-flex gap-2 mt-3">
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.setPageIndex(0)}
-        >
-          First
-        </button>
-
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </button>
-
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </button>
-
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        >
-          Last
-        </button>
-      </div>
+            <AddHoverButton/>
+     
+      {customers.length>10 && <Pagination table={table}/>}
 
       <DeleteConfirmation
         show={showConfirm}

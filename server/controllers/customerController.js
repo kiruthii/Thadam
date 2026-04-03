@@ -13,6 +13,16 @@ const getAllCustomers = async (req, res) => {
         { primaryEmail: { $regex: req.query.search, $options: "i" } },
       ];
     }
+    if (req.query.location) {
+      filter["address.city"] = {$regex: req.query.location, $options: "i" }
+    }
+    if (req.query.role) {
+      filter["role"] ={$regex: req.query.role, $options: "i" }
+    }
+    if (req.query.designation) {
+      filter["designation"] = {$regex: req.query.designation, $options: "i"}
+    }
+
 
     const customers = await Customer.find(filter)
     // const customers = await Customer.find({ createdBy: req.userId });
@@ -29,6 +39,31 @@ const getAllCustomers = async (req, res) => {
     });
   }
 };
+
+const getCustomerFilter = async(req, res) => {
+  try{
+    const locations = await Customer.distinct("address.city",{
+      createdBy: req.userId
+    })
+
+    const roles = await Customer.distinct("role",{
+      createdBy: req.userId
+    })
+
+    const designations = await Customer.distinct("designation",{
+      createdBy: req.userId
+    })
+   
+    res.json({
+      success: true,
+      data: {
+        locations, roles, designations
+      }
+    })
+  }catch(error){
+    res.status(500).json({message: error.message})
+  }
+}
 
 const getCustomerById = async (req, res) => {
   try {
@@ -178,4 +213,5 @@ module.exports = {
   addCustomer,
   deleteCustomer,
   updateCustomer,
+  getCustomerFilter,
 };

@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
-
 import AuthDetailsPage from "../auth/AuthDetails";
-
 import AuthGuard from "../components/authGuard/AuthGuard";
 
 import {

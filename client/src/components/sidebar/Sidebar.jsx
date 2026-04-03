@@ -4,6 +4,7 @@ import Button from "../button/Button";
 import "./Sidebar.css";
 
 const Sidebar = ({ open, handleLogout }) => {
+ 
   return (
     <div
       className={`bg-white border-end p-3 d-flex flex-column sidebar-style ${
@@ -27,6 +28,7 @@ const Sidebar = ({ open, handleLogout }) => {
           Dashboard
         </NavLink>
       </nav>
+    
 
       <div className="mt-auto pt-3 border-top">
         <Button
