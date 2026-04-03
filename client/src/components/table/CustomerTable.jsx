@@ -75,21 +75,23 @@ const CustomerTable = () => {
           <div className="d-flex gap-2">
             <Button
               className="btn btn-sm btn-warning"
-              onClick={() => handleEdit(customer)}
+              onClick={(e) => { e.stopPropagation();
+                 handleEdit(customer)}}
               icon={<i className="fa-regular fa-pen-to-square"></i>}
             />
 
             <Button
               className="btn btn-sm btn-danger"
-              onClick={() => openDeleteConfirm(customer._id)}
+              onClick={(e) => {e.stopPropagation();
+                 openDeleteConfirm(customer._id)}}
               icon={<i className="fa-regular fa-trash-can"></i>}
             />
 
-            <Button
+            {/* <Button
               className="btn btn-sm btn-secondary"
               onClick={() => handleClick(row)}
               icon={<i className="fa-regular fa-eye"></i>}
-            />
+            /> */}
           </div>
         );
       },
@@ -172,7 +174,10 @@ const CustomerTable = () => {
 
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id}
+              style={{cursor:'pointer'}}
+              onClick={()=>handleClick(row)}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="align-middle text-center">
                     {flexRender(
