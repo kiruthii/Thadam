@@ -24,7 +24,11 @@ const ContactDetails = ({ register, errors }) => {
         </div>
 
         <div className="col-md-6 mb-3">
+<<<<<<< feature/contact-type
           <label>Primary Phone *</label>
+=======
+          <label>Primary Phone </label>
+>>>>>>> main
           <input
             type="text"
             className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""}`}

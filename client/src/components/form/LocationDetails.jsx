@@ -23,7 +23,11 @@ const LocationDetails = ({ register, errors }) => {
         </div>
 
         <div className="col-md-6 mb-3">
+<<<<<<< feature/contact-type
           <label>State *</label>
+=======
+          <label>State </label>
+>>>>>>> main
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.state ? "is-invalid" : ""}`}

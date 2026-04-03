@@ -27,7 +27,7 @@ const ProfessionalDetails = ({ register, errors, setValue }) => {
 
       <div className="mb-3">
         <label className="form-label">
-          Contact Type : <span className="text-danger">*</span>
+          Contact Type : 
         </label>
 
         <input
@@ -68,7 +68,7 @@ const ProfessionalDetails = ({ register, errors, setValue }) => {
     
       <div className="mb-3">
         <label className="form-label">
-          Designation: <span className="text-danger">*</span>
+          Designation: 
         </label>
         <input
           type="text"

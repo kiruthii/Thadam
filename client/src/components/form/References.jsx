@@ -5,7 +5,7 @@ const References = ({ register, errors }) => {
 
       <div className="row">
         <div className="col-md-6 mb-3">
-          <label>Last Contacted Date *</label>
+          <label>Last Contacted Date </label>
           <input
             type="date"
             className={`form-control bg-light ${errors.lastContactedDate ? "is-invalid" : ""}`}

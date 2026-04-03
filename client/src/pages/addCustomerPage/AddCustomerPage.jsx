@@ -29,7 +29,6 @@ const AddCustomerPage = () => {
 
   const { addCustomer, updateCustomer } = useContext(CustomerTableContext);
 
-  // ✅ Prefill data when editing
   useEffect(() => {
     if (customer) {
       reset({
@@ -41,9 +40,8 @@ const AddCustomerPage = () => {
     }
   }, [customer, reset]);
 
-  // ✅ Submit Handler (FIXED)
+  
   const onSubmit = (data) => {
-    // handle fullname split if exists
     if (data.fullname) {
       const [firstname, lastname] = data.fullname.split(" ");
       data.firstname = firstname;
@@ -51,7 +49,6 @@ const AddCustomerPage = () => {
     }
 
     if (customer) {
-      // 🔄 Update
       updateCustomer(
         { id: customer._id, data },
         {
@@ -60,14 +57,12 @@ const AddCustomerPage = () => {
             setTimeout(() => navigate("/"), 1500);
           },
           onError: (error) => {
-            const message =
-              error?.response?.data?.message || "Update failed";
+            const message = error?.response?.data?.message || "Update failed";
             gooeyToast.error(message);
           },
-        }
+        },
       );
     } else {
-      // ➕ Add
       addCustomer(data, {
         onSuccess: () => {
           gooeyToast.success("Customer added successfully");
@@ -105,7 +100,7 @@ const AddCustomerPage = () => {
             }`}
             onClick={() => setTab("quick")}
           >
-            ⚡ Quick Add
+            Quick Add
           </button>
 
           <button
@@ -115,17 +110,15 @@ const AddCustomerPage = () => {
             }`}
             onClick={() => setTab("full")}
           >
-            📄 Full Details
+            Full Details
           </button>
         </div>
 
-        {/* Form */}
         <form
           id="form"
           onSubmit={handleSubmit(onSubmit)}
           className="card-body overflow-auto mt-3"
         >
-          {/* QUICK TAB */}
           {tab === "quick" && (
             <>
               <h6 className="text-primary border-bottom pb-2 mb-3">
@@ -135,26 +128,46 @@ const AddCustomerPage = () => {
               <div className="mb-3">
                 <label className="form-label">First Name</label>
                 <input
-                  className="form-control"
-                  {...register("firstname", { required: true })}
+                  className=
+                {`form-control ${errors.firstname ? "is-invalid" : ""}`}
+                  {...register("firstname", {
+                    required: "First name is required",
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: "Name is Required",
+                    },
+                  })}
                 />
+                <div className="invalid-feedback">
+                  {errors.firstname?.message}
+                </div>
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Last Name</label>
                 <input
-                  className="form-control"
-                  {...register("lastname", { required: true })}
+                  className={`form-control ${errors.lastname ? "is-invalid" : ""}`}
+                  {...register("lastname", {
+                    required: "last name is required",
+                    pattern: {
+                      value: /^[A-Za-z]+$/,
+                      message: " last Name is Required",
+                    },
+                  })}
                 />
+                <div className="invalid-feedback">
+                  {errors.lastname?.message}
+                </div>
               </div>
 
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <label className="form-label">Email</label>
                   <input
-                    className="form-control"
+                    className={`form-control bg-light ${errors.primaryEmail ? "is-invalid" : ""}`}
                     {...register("primaryEmail")}
                   />
+                  <div className="invalid-feedback">{errors.primaryEmail?.message}</div>
                 </div>
 
                 <div className="col-md-6 mb-3">
@@ -188,7 +201,6 @@ const AddCustomerPage = () => {
             </>
           )}
 
-          {/* FULL TAB */}
           {tab === "full" && (
             <>
               <PersonalDetails register={register} errors={errors} />
@@ -201,7 +213,6 @@ const AddCustomerPage = () => {
           )}
         </form>
 
-        {/* Footer */}
         <div className="card-footer d-flex justify-content-end gap-2">
           <button
             type="button"
@@ -215,9 +226,7 @@ const AddCustomerPage = () => {
             type="submit"
             form="form"
             className="btn btn-primary"
-            disabled={
-              addCustomer.isPending || updateCustomer.isPending
-            }
+            disabled={addCustomer.isPending || updateCustomer.isPending}
           >
             {addCustomer.isPending || updateCustomer.isPending
               ? "Saving..."
