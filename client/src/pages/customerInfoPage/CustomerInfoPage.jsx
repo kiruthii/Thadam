@@ -36,11 +36,11 @@ const CustomerInfoPage = () => {
 
   if (!customer) {
     return (
-    <div className="d-flex flex-column  justify-content-center align-items-center vh-100 ">
-      <div className="spinner-border text-primary mb-2"></div>
-      <p >Loading...</p>
-    </div>
-  );
+      <div className="d-flex flex-column  justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-primary mb-2"></div>
+        <p>Loading...</p>
+      </div>
+    );
   }
   return (
     <div className="container-fluid px-0">
@@ -49,14 +49,13 @@ const CustomerInfoPage = () => {
         style={{ backgroundColor: "#eef2ff", color: "#2563eb" }}
       >
         <CustomerHeader customer={customer} />
-        
+
         <Button
           buttonText="Edit"
           className="btn btn-primary ms-4"
           onClick={() => handleEdit(customer)}
           icon={<i className="me-2 bi bi-pencil-square"></i>}
         ></Button>
-        
       </div>
       <div>
         <div
