@@ -12,6 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
 import Button from "../button/Button";
 import CustomerControl from "./CustomerControl";
+import ColumnSelector from "./ColumnSelector";
+import AddHoverButton from "../button/AddHoverButton";
+import Pagination from "./Pagination";
 
 
 
@@ -27,25 +30,30 @@ const CustomerTable = () => {
 
   const columns = useMemo(() => [
     {
-      header: "Profile",
+      header: "Name",
       cell: ({ row }) => {
         const customer = row.original;
 
         return (
-          <div
-            className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
-            style={{ width: "30px", height: "30px", fontSize: "12px" }}
-          >
-            {customer?.firstname?.[0]}
-            {customer?.lastname?.[0]}
-          </div>
+          <div className="d-flex gap-3">
+              <div
+                className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
+                style={{ width: "30px", height: "30px", fontSize: "12px" }}
+              >
+                {customer?.firstname?.[0]}
+                {customer?.lastname?.[0]}
+              </div>
+              <div className="mt-1">
+                {customer?.firstname} {customer?.lastname}
+              </div>
+            </div>
         );
       },
     },
-    {
-      header: "Name",
-      accessorFn: (row) => `${row.firstname} ${row.lastname}`,
-    },
+    // {
+    //   header: "Name",
+    //   accessorFn: (row) => `${row.firstname} ${row.lastname}`,
+    // },
     {
       header: "Email",
       accessorKey: "primaryEmail",
@@ -142,16 +150,16 @@ const CustomerTable = () => {
         </div>
       </div>
 
-      <CustomerControl />
-
-      
-      <div className="table-responsive">
-        <table className="table table-hover table-bordered align-middle">
+      <div className="d-flex">
+      <CustomerControl table={table}/>
+     </div>
+      <div className="table-responsive border rounded-3 py-1">
+        <table className="table table-hover align-middle p-2">
           <thead className="table-light">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
+                  <th key={header.id} className="align-middle text-center">
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -166,7 +174,7 @@ const CustomerTable = () => {
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
+                  <td key={cell.id} className="align-middle text-center">
                     {flexRender(
                       cell.column.columnDef.cell,
                       cell.getContext()
@@ -178,39 +186,9 @@ const CustomerTable = () => {
           </tbody>
         </table>
       </div>
-
+            <AddHoverButton/>
      
-      <div className="d-flex gap-2 mt-3">
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.setPageIndex(0)}
-        >
-          First
-        </button>
-
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </button>
-
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </button>
-
-        <button
-          className="btn btn-outline-secondary btn-sm"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        >
-          Last
-        </button>
-      </div>
+      {customers.length>10 && <Pagination table={table}/>}
 
       <DeleteConfirmation
         show={showConfirm}

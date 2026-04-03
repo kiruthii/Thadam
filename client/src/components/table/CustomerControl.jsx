@@ -4,8 +4,9 @@ import { CustomerTableContext } from '../../context/CustomerTableContext'
 import Button from '../button/Button';
 import { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
+import ColumnSelector from './ColumnSelector';
 
-const CustomerControl = () => {
+const CustomerControl = ({table}) => {
     const { search, setSearch, filters, location, setLocation, role, setRole, designation, setDesignation } = useContext(CustomerTableContext)
     const [showFilter, setShowFilter] = useState(false)
 
@@ -32,7 +33,7 @@ const CustomerControl = () => {
     // console.log(filters)
     return (
 
-        <div className="d-flex justify-content-between gap-3 mb-3">
+        <div className="d-flex justify-content-between gap-3 mb-3 w-100">
             <div className='d-flex gap-3'>
                 <input
                     className="form-control w-100"
@@ -117,10 +118,12 @@ const CustomerControl = () => {
 
                 </div>
             </div>
-
+            <div className='d-flex justify-content-end gap-2'>
+            <ColumnSelector table={table}/>
             <button className="btn btn-primary" onClick={handleNavigate}>
                 <i className="fa-solid fa-plus"></i> Add Customer
             </button>
+            </div>
         </div>
 
 
