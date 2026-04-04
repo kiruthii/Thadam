@@ -14,14 +14,14 @@ export const getCustomerById = async (id) => {
   return res.data.data[0];
 };
 
-export const getCustomers = async (search,location,role,designation) => {
+export const getCustomers = async (search,location,contactType,designation) => {
   let url =CUSTOMER_API_URL;
 
   const params = [];
 
   if (search) params.push(`search=${search}`);
   if (location) params.push(`location=${location}`);
-  if (role) params.push(`role=${role}`)
+  if (contactType) params.push(`contactType=${contactType}`)
   if (designation) params.push(`designation=${designation}`)
 
   if (params.length > 0) {

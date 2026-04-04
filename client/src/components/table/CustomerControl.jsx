@@ -7,13 +7,13 @@ import { FaFilter } from 'react-icons/fa';
 import ColumnSelector from './ColumnSelector';
 
 const CustomerControl = ({table}) => {
-    const { search, setSearch, filters, location, setLocation, role, setRole, designation, setDesignation } = useContext(CustomerTableContext)
+    const { search, setSearch, filters, location, setLocation, contactType, setContactType, designation, setDesignation } = useContext(CustomerTableContext)
     const [showFilter, setShowFilter] = useState(false)
 
     const navigate = useNavigate()
     const handleNavigate = () => {
         setLocation("")
-        setRole("")
+        setContactType("")
         setDesignation("")
         navigate("/add-customer-form")
     }
@@ -24,7 +24,7 @@ const CustomerControl = ({table}) => {
 
     const clearFilter = () => {
         setLocation("")
-        setRole("")
+        setContactType("")
         setDesignation("")
         setShowFilter(false)
     }
@@ -80,11 +80,11 @@ const CustomerControl = ({table}) => {
                                 <label className="form-label">Role</label>
                                 <select
                                     className="form-select"
-                                    value={role}
-                                    onChange={(e) => setRole(e.target.value)}
+                                    value={contactType}
+                                    onChange={(e) => setContactType(e.target.value)}
                                 >
                                     <option value="">All</option>
-                                    {filters.roles?.map((rol) => (
+                                    {filters.contactTypes?.map((rol) => (
                                         <option key={rol} value={rol}>
                                             {rol}
                                         </option>
@@ -117,9 +117,9 @@ const CustomerControl = ({table}) => {
                     )}
 
                 </div>
+            <ColumnSelector table={table}/>
             </div>
             <div className='d-flex justify-content-end gap-2'>
-            <ColumnSelector table={table}/>
             <button className="btn btn-primary" onClick={handleNavigate}>
                 <i className="fa-solid fa-plus"></i> Add Customer
             </button>
