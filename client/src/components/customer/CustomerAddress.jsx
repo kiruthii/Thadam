@@ -1,22 +1,32 @@
 const CustomerAddress = ({ address }) => {
-  const location = [
-    { label: "Street", value: address?.street || "Detail not found"},
-    { label: "City", value: address?.city },
-    { label: "State", value: address?.state },
-    { label: "Country", value: address?.country },
-    { label: "Post Code", value: address?.postCode },
-  ];
+  const hasAddress =
+    address?.street ||
+    address?.city ||
+    address?.state ||
+    address?.country ||
+    address?.postCode;
   return (
-    <div className="card h-100" style={{ backgroundColor: "white"}}>
+    <div className="card h-100" style={{ backgroundColor: "white" }}>
       <div className="card-body">
         <div className="card-title">
-          <h5 className="mb-3" style={{color: "#2563eb"}}>Address</h5>
-              {location.map((location) => (
-                <div className="row" key={location.label}>
-                  <h6 className="col">{location.label}:</h6>
-                  <p className="col">{location.value}</p>
-                </div>
-              ))}
+          <h5 className="mb-3" style={{ color: "#2563eb" }}>
+            Address
+          </h5>
+          {hasAddress ? (
+            <>
+              <p className="mb-1">
+                {address?.city && address?.state
+                  ? `${address?.city},${address?.state}`
+                  : address?.city || address?.state}
+              </p>
+              <p className="mb-0">
+                {address?.country}{" "}
+                {address?.postCode && `- ${address.postCode}`}
+              </p>
+            </>
+          ) : (
+            <p> Address not available</p>
+          )}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import FeaturesPage from "./FeaturesPage";
 import SolutionPage from "./SolutionPage";
 import PricingPage from "./PricingPage";
 import ResourcesPage from "./ResourcesPage";
+
 import thadam from "../../assets/thadamLogo.svg";
 import Button from "../../components/button/Button";
 import Footer from "./Footer";

@@ -1,18 +1,18 @@
-const { WorkOS } = require("@workos-inc/node");
-const workos = new WorkOS(process.env.WORKOS_API_KEY);
 const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req, res, next) => {
   try {
-    const token = req.headers["authorization"];
-    if (!token) {
+    const authHeader = req.headers["authorization"];
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         success: false,
         message: "Access token missing",
       });
     }
 
-    const accessToken = token.replace("Bearer ", "").trim();
+    const accessToken = authHeader.split(" ")[1];
+
     const decoded = jwt.decode(accessToken);
 
     if (!decoded || !decoded.sub) {

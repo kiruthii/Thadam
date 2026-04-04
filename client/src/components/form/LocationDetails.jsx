@@ -1,10 +1,11 @@
 const LocationDetails = ({ register, errors }) => {
   return (
     <>
-      <div className="row">
+      <h6 className="section-title text-primary">ADDRESS</h6>
 
-        <div className="mb-3">
-          <label className="form-label">Street :</label>
+      <div className="row">
+        <div className="col-12 mb-3">
+          <label>Street</label>
           <input
             type="text"
             className="form-control bg-light"
@@ -12,54 +13,41 @@ const LocationDetails = ({ register, errors }) => {
           />
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">City :<span className="text-danger">*</span></label>
+        <div className="col-md-6 mb-3">
+          <label>City </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.city ? "is-invalid" : ""}`}
-            {...register("address.city", { required: "City name is required" })}
+            {...register("address.city")}
           />
-          <div className="invalid-feedback">
-            {errors.address?.city?.message}
-          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">State :<span className="text-danger">*</span></label>
+        <div className="col-md-6 mb-3">
+          <label>State </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.state ? "is-invalid" : ""}`}
-            {...register("address.state", { required: "State name is required" })}
+            {...register("address.state")}
           />
-          <div className="invalid-feedback">
-            {errors.address?.state?.message}
-          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Country : <span className="text-danger">*</span></label>
+        <div className="col-md-6 mb-3">
+          <label>Country </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.country ? "is-invalid" : ""}`}
-            {...register("address.country", { required: "Country name is required" })}
+            {...register("address.country")}
           />
-          <div className="invalid-feedback">
-            {errors.address?.country?.message}
-          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Post Code :<span className="text-danger">*</span></label>
+        <div className="col-md-6 mb-3">
+          <label>Postcode </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.postCode ? "is-invalid" : ""}`}
-            {...register("address.postCode", { required: "Post Code is required" })}
+            {...register("address.postCode")}
           />
-          <div className="invalid-feedback">
-            {errors.address?.postCode?.message}
-          </div>
         </div>
-
       </div>
     </>
   );

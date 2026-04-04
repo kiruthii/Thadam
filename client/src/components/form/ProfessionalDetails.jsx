@@ -1,44 +1,79 @@
-const roles = ["Lead", "Prospect", "Client", "Partner"];
+import { useState } from "react";
 
-const ProfessionalDetails = ({ register, errors }) => {
+const contactTypes = [
+  "Lead",
+  "Prospect",
+  "Client",
+  "Networking",
+  "Partner",
+  "Referral",
+  "Other",
+];
+
+const ProfessionalDetails = ({ register, errors, setValue }) => {
+  const [selectedType, setSelectedType] = useState("Prospect");
+
+  const handleTypeChange = (e) => {
+    const value = e.target.value;
+    setSelectedType(value);
+    setValue("contactType", value);
+
+    if (value !== "Other") {
+      setValue("contactType", value, { shouldValidate: true });
+    }
+  };
+
   return (
     <>
       <div className="mb-3">
-        <label className="form-label">Company : <span className="text-danger">*</span></label>
+        <label className="form-label">Company :</label>
         <input
           type="text"
           className={`form-control bg-light ${errors.company ? "is-invalid" : ""}`}
-          {...register("company", {
-            required: "Company is required",
-          })}
+          {...register("company")}
         />
-
-        {errors.company && (
-          <div className="invalid-feedback">{errors.company.message}</div>
-        )}
       </div>
 
       <div className="mb-3">
-        <label className="form-label">Role :<span className="text-danger">*</span></label>
+        <label className="form-label">Contact Type :</label>
+
+        <input
+          type="hidden"
+          {...register("contactType", {
+            required: "Contact Type is required",
+          })}
+        />
+
         <select
-          className={`form-select bg-light ${errors.role ? "is-invalid" : ""}`}
-          {...register("role", { required: "Role is required" })}
-          defaultValue="Prospect"
+          className={`form-select bg-light ${errors.contactType ? "is-invalid" : ""}`}
+          onChange={handleTypeChange}
+          value={selectedType}
         >
-          {roles.map((role, index) => (
-            <option key={index} value={role}>
-              {role}
+          {contactTypes.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
             </option>
           ))}
         </select>
 
-        {errors.role && (
-          <div className="invalid-feedback">{errors.role.message}</div>
+        {selectedType === "Other" && (
+          <input
+            type="text"
+            placeholder="Enter custom type"
+            className="form-control mt-2"
+            {...register("contactType", {
+              required: "Contact Type is required",
+            })}
+          />
+        )}
+
+        {errors.contactType && (
+          <div className="invalid-feedback">{errors.contactType.message}</div>
         )}
       </div>
 
       <div className="mb-3">
-        <label className="form-label">Designation: <span className="text-danger">*</span></label>
+        <label className="form-label">Designation:</label>
         <input
           type="text"
           className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}
@@ -46,10 +81,6 @@ const ProfessionalDetails = ({ register, errors }) => {
             required: "Designation is required",
           })}
         />
-
-        {errors.designation && (
-          <div className="invalid-feedback">{errors.designation.message}</div>
-        )}
       </div>
     </>
   );
