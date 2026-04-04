@@ -16,6 +16,7 @@ import {
 const AddCustomerPage = () => {
   const {
     register,
+    setValue,
     handleSubmit,
     reset,
     formState: { errors },
@@ -128,8 +129,7 @@ const AddCustomerPage = () => {
               <div className="mb-3">
                 <label className="form-label">First Name</label>
                 <input
-                  className=
-                {`form-control ${errors.firstname ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.firstname ? "is-invalid" : ""}`}
                   {...register("firstname", {
                     required: "First name is required",
                     pattern: {
@@ -164,14 +164,16 @@ const AddCustomerPage = () => {
                 <div className="col-md-6 mb-3">
                   <label className="form-label">Email</label>
                   <input
-                    className={`form-control bg-light ${errors.primaryEmail ? "is-invalid" : ""}`}
+                    className={`form-control ${errors.primaryEmail ? "is-invalid" : ""}`}
                     {...register("primaryEmail")}
                   />
-                  <div className="invalid-feedback">{errors.primaryEmail?.message}</div>
+                  <div className="invalid-feedback">
+                    {errors.primaryEmail?.message}
+                  </div>
                 </div>
 
                 <div className="col-md-6 mb-3">
-                  <label className="form-label">Phone</label>
+                  <label className="form-label">Phone No.</label>
                   <input
                     type="text"
                     className={`form-control ${
@@ -191,6 +193,11 @@ const AddCustomerPage = () => {
                 </div>
 
                 <div className="col-md-6 mb-3">
+                  <label className="form-label">Company</label>
+                  <input className="form-control" {...register("company")} />
+                </div>
+
+                <div className="col-md-6 mb-3">
                   <label className="form-label">Designation</label>
                   <input
                     className="form-control"
@@ -205,7 +212,11 @@ const AddCustomerPage = () => {
             <>
               <PersonalDetails register={register} errors={errors} />
               <ContactDetails register={register} errors={errors} />
-              <ProfessionalDetails register={register} errors={errors} />
+              <ProfessionalDetails
+                register={register}
+                errors={errors}
+                setValue={setValue}
+              />
               <LocationDetails register={register} errors={errors} />
               <References register={register} errors={errors} />
               <Socials register={register} />

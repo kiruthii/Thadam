@@ -1,6 +1,14 @@
 import { useState } from "react";
 
-const contactTypes = ["Lead", "Prospect", "Client", "Networking","Partner","Referral", "Other"];
+const contactTypes = [
+  "Lead",
+  "Prospect",
+  "Client",
+  "Networking",
+  "Partner",
+  "Referral",
+  "Other",
+];
 
 const ProfessionalDetails = ({ register, errors, setValue }) => {
   const [selectedType, setSelectedType] = useState("Prospect");
@@ -8,6 +16,7 @@ const ProfessionalDetails = ({ register, errors, setValue }) => {
   const handleTypeChange = (e) => {
     const value = e.target.value;
     setSelectedType(value);
+    setValue("contactType", value);
 
     if (value !== "Other") {
       setValue("contactType", value, { shouldValidate: true });
@@ -26,9 +35,7 @@ const ProfessionalDetails = ({ register, errors, setValue }) => {
       </div>
 
       <div className="mb-3">
-        <label className="form-label">
-          Contact Type : 
-        </label>
+        <label className="form-label">Contact Type :</label>
 
         <input
           type="hidden"
@@ -65,11 +72,8 @@ const ProfessionalDetails = ({ register, errors, setValue }) => {
         )}
       </div>
 
-    
       <div className="mb-3">
-        <label className="form-label">
-          Designation: 
-        </label>
+        <label className="form-label">Designation:</label>
         <input
           type="text"
           className={`form-control bg-light ${errors.designation ? "is-invalid" : ""}`}

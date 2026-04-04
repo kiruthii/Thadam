@@ -1,5 +1,6 @@
 import logo from "../../assets/thadamLogo.svg";
 import noProfile from "../../assets/noprofile.jpg";
+import FieldRender from "../fieldRender/FieldRender";
 const CustomerHeader = ({ customer }) => {
   return (
     <div className="row">
@@ -39,15 +40,15 @@ const CustomerHeader = ({ customer }) => {
         <div>
           <p>
             <i className="bi bi-envelope-open-fill pe-2 "></i>
-            {customer?.primaryEmail}
+            <FieldRender type="email" value={customer.primaryEmail} />
           </p>
           <p>
             <i className="bi bi-telephone-fill pe-2"></i>
-            {customer?.primaryContactNo}
+            <FieldRender type="phone" value={customer.primaryContactNo} />
           </p>
           <p>
             <i className="bi bi-linkedin pe-2"></i>
-            {customer.socialMedia?.linkedin || "URL not found"}
+            <FieldRender type="link" value={customer.socialMedia?.linkedin} />
           </p>
         </div>
       </div>
