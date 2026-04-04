@@ -1,7 +1,7 @@
 const LocationDetails = ({ register, errors }) => {
   return (
     <>
-      <h6 className="section-title primary-text">ADDRESS</h6>
+      <h6 className="section-title text-primary">ADDRESS</h6>
 
       <div className="row">
         <div className="col-12 mb-3">

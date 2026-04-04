@@ -1,7 +1,7 @@
 const ContactDetails = ({ register, errors }) => {
   return (
     <>
-      <h6 className="section-title primary-text">CONTACT INFO</h6>
+      <h6 className="section-title text-primary">CONTACT INFO</h6>
 
       <div className="row">
         <div className="col-md-6 mb-3">
@@ -24,7 +24,7 @@ const ContactDetails = ({ register, errors }) => {
         </div>
 
         <div className="col-md-6 mb-3">
-          <label>Primary Phone </label>
+          <label>Primary Phone No.</label>
           <input
             type="text"
             className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""}`}
@@ -42,12 +42,11 @@ const ContactDetails = ({ register, errors }) => {
         </div>
 
         <div className="col-md-6 mb-3">
-          <label>Secondary Phone</label>
+          <label>Secondary Phone No.</label>
           <input
             type="text"
             className={`form-control bg-light ${errors.secondaryContactNo ? "is-invalid" : ""}`}
             {...register("secondaryContactNo", {
-              required: "Phone required",
               pattern: {
                 value: /^[0-9]{10}$/,
                 message: "Must be 10 digits",

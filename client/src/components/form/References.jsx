@@ -1,15 +1,17 @@
 const References = ({ register, errors }) => {
+  const today = new Date().toISOString().split("T")[0];
   return (
     <>
-      <h6 className="section-title primary-text">REFERENCES</h6>
+      <h6 className="section-title text-primary">REFERENCES</h6>
 
       <div className="row">
         <div className="col-md-6 mb-3">
           <label>Last Contacted Date </label>
           <input
             type="date"
-            className={`form-control bg-light ${errors.lastContactedDate ? "is-invalid" : ""}`}
-            {...register("lastContactedDate")}
+            className={`form-control bg-light ${errors.date ? "is-invalid" : ""}`}
+            max={today}
+            {...register("date")}
           />
         </div>
 
