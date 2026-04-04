@@ -14,15 +14,15 @@ export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState()
   const [location, setLocation] = useState("")
-  const [role, setRole] = useState("")
+  const [contactType, setContactType] = useState("")
   const [designation, setDesignation] = useState("")
   const {
     data: customers = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["customers", search, location, role, designation],
-    queryFn: () => getCustomers(search, location, role, designation),
+    queryKey: ["customers", search, location, contactType, designation],
+    queryFn: () => getCustomers(search, location, contactType, designation),
   });
 
   const {
@@ -64,9 +64,9 @@ export const CustomerContextProvider = ({ children }) => {
           search,
           filters,
           location,
-          role,
+          contactType,
           designation,
-          setRole,
+          setContactType,
           setDesignation,
           setLocation,
           setSearch,
