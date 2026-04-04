@@ -13,9 +13,9 @@ export const CustomerTableContext = createContext();
 export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState()
-  const [location, setLocation] = useState()
-  const [role, setRole] = useState()
-  const [designation, setDesignation] = useState()
+  const [location, setLocation] = useState("")
+  const [role, setRole] = useState("")
+  const [designation, setDesignation] = useState("")
   const {
     data: customers = [],
     isLoading,
