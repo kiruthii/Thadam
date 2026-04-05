@@ -4,7 +4,7 @@ const ColumnSelector = ({table}) => {
   return (
     <div>
       <div className='dropdown'>
-        <button className='btn btn-secondary' data-bs-toggle="dropdown">Columns</button>
+        <button className='btn btn-outline-secondary' data-bs-toggle="dropdown">Columns</button>
         <div className='dropdown-menu p-3'>
             {table
             .getAllLeafColumns()

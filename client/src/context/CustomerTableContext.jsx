@@ -8,21 +8,22 @@ import {
   getCustomerFilter,
 } from "../api/CustomerApi";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CustomerTableContext = createContext();
 
 export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
- const [search, setSearch] = useState("");
-const [location, setLocation] = useState("");
-const [contactTypes, setContactTypes] = useState("");
-const [designation, setDesignation] = useState("");
+  const [search, setSearch] = useState()
+  const [location, setLocation] = useState("")
+  const [contactType, setContactType] = useState("")
+  const [designation, setDesignation] = useState("")
   const {
     data: customers = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["customers", search, location, contactTypes, designation],
-    queryFn: () => getCustomers(search, location, contactTypes, designation),
+    queryKey: ["customers", search, location, contactType, designation],
+    queryFn: () => getCustomers(search, location, contactType, designation),
   });
 
   const {
@@ -35,14 +36,14 @@ const [designation, setDesignation] = useState("");
   const addCustomerMutation = useMutation({
     mutationFn: addCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries(["customers"]);
     },
   });
 
   const updateCustomerMutation = useMutation({
     mutationFn: updateCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
+      queryClient.invalidateQueries(["customers"]);
     },
   });
 
@@ -64,9 +65,9 @@ const [designation, setDesignation] = useState("");
           search,
           filters,
           location,
-         contactTypes,
+          contactType,
           designation,
-          setContactTypes,
+          setContactType,
           setDesignation,
           setLocation,
           setSearch,
