@@ -14,7 +14,7 @@ const customerSchema = new mongoose.Schema(
     secondaryEmail: { type: String, lowercase: true },
     primaryContactNo: { type: String, required: true },
     secondaryContactNo: { type: String },
-    role: {
+    contactType: {
       type: String,
       enum: ["Lead", "Prospect", "Client", "Partner"],
       default: "Prospect",
