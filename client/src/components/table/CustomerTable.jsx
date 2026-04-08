@@ -1,4 +1,4 @@
-import DeleteConfirmation from "../deleteConfirmation/DeleteConfirmation";
+import DeleteConfirmation from "../../modules/Customer/actions/deleteConfirmation/DeleteConfirmation";
 import {
   useReactTable,
   getCoreRowModel,
@@ -9,17 +9,17 @@ import {
 
 import { useMemo, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { CustomerTableContext } from "../../context/CustomerTableContext";
-import Button from "../button/Button";
+import { CustomerTableContext } from "../../context/CustomerTableContextValue";
+import Button from "../../ui/button/Button";
 import CustomerControl from "./CustomerControl";
 import ColumnSelector from "./ColumnSelector";
-import AddHoverButton from "../button/AddHoverButton";
+import AddHoverButton from "../../ui/button/AddHoverButton"
 import Pagination from "./Pagination";
 
 
 
 const CustomerTable = () => {
-  const { customers, deleteCustomer,totalCustomers} = useContext(CustomerTableContext);
+  const { customers, deleteCustomer, totalCustomers } = useContext(CustomerTableContext);
 
   const navigate = useNavigate();
 
@@ -36,17 +36,17 @@ const CustomerTable = () => {
 
         return (
           <div className="d-flex gap-3">
-              <div
-                className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
-                style={{ width: "30px", height: "30px", fontSize: "12px" }}
-              >
-                {customer?.firstname?.[0]}
-                {customer?.lastname?.[0]}
-              </div>
-              <div className="mt-1">
-                {customer?.firstname} {customer?.lastname}
-              </div>
+            <div
+              className="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
+              style={{ width: "30px", height: "30px", fontSize: "12px" }}
+            >
+              {customer?.firstname?.[0]}
+              {customer?.lastname?.[0]}
             </div>
+            <div className="mt-1">
+              {customer?.firstname} {customer?.lastname}
+            </div>
+          </div>
         );
       },
     },
@@ -75,15 +75,19 @@ const CustomerTable = () => {
           <div className="d-flex gap-2">
             <Button
               className="btn btn-sm btn-warning"
-              onClick={(e) => { e.stopPropagation();
-                 handleEdit(customer)}}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit(customer)
+              }}
               icon={<i className="fa-regular fa-pen-to-square"></i>}
             />
 
             <Button
               className="btn btn-sm btn-danger"
-              onClick={(e) => {e.stopPropagation();
-                 openDeleteConfirm(customer._id)}}
+              onClick={(e) => {
+                e.stopPropagation();
+                openDeleteConfirm(customer._id)
+              }}
               icon={<i className="fa-regular fa-trash-can"></i>}
             />
 
@@ -123,7 +127,7 @@ const CustomerTable = () => {
   const confirmDelete = () => {
     deleteCustomer(customerToDelete);
 
-   
+
 
     setShowConfirm(false);
     setCustomerToDelete(null);
@@ -140,7 +144,7 @@ const CustomerTable = () => {
 
   return (
     <div className="container-fluid mt-3">
-      
+
       <div className="row mb-4">
         <div className="col-md-3">
           <div className="card shadow-sm border-0">
@@ -153,8 +157,8 @@ const CustomerTable = () => {
       </div>
 
       <div className="d-flex">
-      <CustomerControl table={table}/>
-     </div>
+        <CustomerControl table={table} />
+      </div>
       <div className="table-responsive border rounded-3">
         <table className="table table-hover align-middle p-2">
           <thead className="table-light">
@@ -175,8 +179,8 @@ const CustomerTable = () => {
           <tbody>
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}
-              style={{cursor:'pointer'}}
-              onClick={()=>handleClick(row)}
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleClick(row)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="align-middle text-center">
@@ -191,9 +195,9 @@ const CustomerTable = () => {
           </tbody>
         </table>
       </div>
-            <AddHoverButton/>
-     
-      {customers.length>10 && <Pagination table={table}/>}
+      <AddHoverButton />
+
+      {customers.length > 10 && <Pagination table={table} />}
 
       <DeleteConfirmation
         show={showConfirm}

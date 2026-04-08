@@ -1,6 +1,6 @@
 import logo from "../../assets/thadamLogo.svg";
 import noProfile from "../../assets/noprofile.jpg";
-import FieldRender from "../fieldRender/FieldRender";
+import FieldRender from "../../modules/Customer/actions/fieldRender/FieldRender";
 const CustomerHeader = ({ customer }) => {
   return (
     <div className="row">

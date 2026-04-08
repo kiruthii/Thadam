@@ -5,7 +5,7 @@ import PricingPage from "./PricingPage";
 import ResourcesPage from "./ResourcesPage";
 
 import thadam from "../../assets/thadamLogo.svg";
-import Button from "../../components/button/Button";
+import Button from "../../ui/button/Button";
 import Footer from "./Footer";
 const VITE_BACKEND_LIVE_BASE_URL = import.meta.env.VITE_BACKEND_LIVE_BASE_URL;
 

@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 
 const getAllCustomers = async (req, res) => {
   try {
-
     const filter = { createdBy: req.userId };
 
     if (req.query.search) {
@@ -14,17 +13,16 @@ const getAllCustomers = async (req, res) => {
       ];
     }
     if (req.query.location) {
-      filter["address.city"] = {$regex: req.query.location, $options: "i" }
+      filter["address.city"] = { $regex: req.query.location, $options: "i" };
     }
     if (req.query.contactType) {
-      filter["contactType"] ={$regex: req.query.contactType, $options: "i" }
+      filter["contactType"] = { $regex: req.query.contactType, $options: "i" };
     }
     if (req.query.designation) {
-      filter["designation"] = {$regex: req.query.designation, $options: "i"}
+      filter["designation"] = { $regex: req.query.designation, $options: "i" };
     }
 
-
-    const customers = await Customer.find(filter)
+    const customers = await Customer.find(filter);
     // const customers = await Customer.find({ createdBy: req.userId });
     res.json({
       success: true,
@@ -40,34 +38,39 @@ const getAllCustomers = async (req, res) => {
   }
 };
 
-const getCustomerFilter = async(req, res) => {
-  try{
-    const locations = await Customer.distinct("address.city",{
-      createdBy: req.userId
-    })
+const getCustomerFilter = async (req, res) => {
+  try {
+    const locations = await Customer.distinct("address.city", {
+      createdBy: req.userId,
+    });
 
-    const contactTypes = await Customer.distinct("contactType",{
-      createdBy: req.userId
-    })
+    const contactTypes = await Customer.distinct("contactType", {
+      createdBy: req.userId,
+    });
 
-    const designations = await Customer.distinct("designation",{
-      createdBy: req.userId
-    })
-   
+    const designations = await Customer.distinct("designation", {
+      createdBy: req.userId,
+    });
+
     res.json({
       success: true,
       data: {
-        locations, contactTypes, designations
-      }
-    })
-  }catch(error){
-    res.status(500).json({message: error.message})
+        locations,
+        contactTypes,
+        designations,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
 const getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findOne({ _id: req.params.id, createdBy: req.userId });
+    const customer = await Customer.findOne({
+      _id: req.params.id,
+      createdBy: req.userId,
+    });
     if (!customer) {
       return res.status(404).json({
         success: false,
@@ -107,12 +110,11 @@ const deleteCustomer = async (req, res) => {
         message: "Invalid Customer ID",
       });
     }
-  
+
     const deletedCustomer = await Customer.findOneAndDelete({
       _id: id,
       createdBy: userId,
     });
-
 
     if (!deletedCustomer) {
       return res.status(404).json({
@@ -140,7 +142,7 @@ const updateCustomer = async (req, res) => {
     const updatedCustomer = await Customer.findOneAndUpdate(
       { _id: req.params.id, createdBy: req.userId },
       req.body,
-      { returnDocument: 'after' } ,
+      { returnDocument: "after" },
     );
 
     if (!updatedCustomer) {
@@ -149,16 +151,15 @@ const updateCustomer = async (req, res) => {
 
     res.json(updatedCustomer);
   } catch (error) {
-    res.status(500).json({ message: "error.message" });
+    res.status(500).json({ message: error.message });
   }
 };
 //Add Customer API
 const addCustomer = async (req, res) => {
   console.log(req.user);
-  console.log(req.user);
   try {
-    const { firstname, lastname, primaryEmail, primaryContactNo } = req.body;
-    if (!firstname || !lastname || !primaryEmail || !primaryContactNo) {
+    const { firstname, primaryEmail, primaryContactNo } = req.body;
+    if (!firstname || !primaryEmail || !primaryContactNo) {
       return res.status(400).json({
         success: false,
         status: "error",

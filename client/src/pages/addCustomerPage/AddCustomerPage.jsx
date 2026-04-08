@@ -1,28 +1,23 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CustomerTableContext } from "../../context/CustomerTableContext";
+import { CustomerTableContext } from "../../context/CustomerTableContextValue";
 import { gooeyToast } from "goey-toast";
 
-import {
-  ContactDetails,
-  LocationDetails,
-  PersonalDetails,
-  ProfessionalDetails,
-  References,
-  Socials,
-} from "../../components";
-
+import PersonalDetails from "../../modules/Customer/personalDetails/PersonalDetails";
+import Organization from "../../modules/Customer/organizationDetails/OrganizationDetails";
+import SocialLinks from "../../modules/Customer/socialLinks/SocialLinks";
+import MoreInfo from "../../modules/Customer/moreInfo/MoreInfo";
+import Button from "../../ui/button/Button";
 const AddCustomerPage = () => {
   const {
     register,
     setValue,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm();
-
-  const [tab, setTab] = useState("quick");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,10 +37,15 @@ const AddCustomerPage = () => {
   }, [customer, reset]);
 
   const onSubmit = (data) => {
+    console.log("FORM DATA:", data);
     if (data.fullname) {
       const [firstname, lastname] = data.fullname.split(" ");
       data.firstname = firstname;
       data.lastname = lastname || "";
+    }
+
+    if (data.primaryContactNo) {
+      data.primaryContactNo = data.primaryContactNo.replace(/\s/g, "");
     }
 
     if (customer) {
@@ -77,163 +77,66 @@ const AddCustomerPage = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
-      <div className="card shadow" style={{ width: "589px", height: "541px" }}>
-        <div className="card-header d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">{customer ? "Edit Contact" : "Add Contact"}</h5>
+    <div
+      className="container-fluid px-3"
+      style={{ backgroundColor: "#eef2ff" }}
+    >
+      <div className="p-3 d-flex align-items-center justify-content-between">
+        <Button
+          buttonText="Back"
+          type="button"
+          className="btn btn-outline-secondary"
+          icon={<i className="fa-solid fa-arrow-left me-2"></i>}
+          onClick={() => navigate("/")}
+        />
+
+        <h5 className="m-0 contact-page text-center flex-grow-1">
+          {customer ? "Edit Contact" : "Add Contact"}
+        </h5>
+      </div>
+
+      <form id="form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="row align-items-stretch p-3">
+          <div className="col-md-7 d-flex">
+            <PersonalDetails
+              register={register}
+              errors={errors}
+              setValue={setValue}
+            />
+          </div>
+          <div className="col-md-5 d-flex">
+            <Organization register={register} errors={errors} />
+          </div>
         </div>
 
-        <div className="d-flex gap-2 p-3">
-          <button
-            type="button"
-            className={`btn w-50 ${
-              tab === "quick" ? "btn-primary" : "btn-outline-secondary"
-            }`}
-            onClick={() => setTab("quick")}
-          >
-            Quick Add
-          </button>
-
-          <button
-            type="button"
-            className={`btn w-50 ${
-              tab === "full" ? "btn-primary" : "btn-outline-secondary"
-            }`}
-            onClick={() => setTab("full")}
-          >
-            Full Details
-          </button>
+        <div className="row p-3">
+          <div className="col-md-7">
+            <MoreInfo register={register} errors={errors} />
+          </div>
+          <div className="col-md-5">
+            <SocialLinks register={register} control={control} />
+          </div>
         </div>
+      </form>
 
-        <form
-          id="form"
-          onSubmit={handleSubmit(onSubmit)}
-          className="card-body overflow-auto mt-3"
+      <div className="d-flex justify-content-center gap-2 p-3">
+        <Button
+          buttonText="Cancel"
+          type="button"
+          onClick={() => navigate("/")}
+          className="btn btn-outline-secondary"
+        />
+
+        <button
+          type="submit"
+          form="form"
+          className="btn btn-primary"
+          disabled={addCustomer.isPending || updateCustomer.isPending}
         >
-          {tab === "quick" && (
-            <>
-              <h6 className="text-primary border-bottom pb-2 mb-3">
-                ESSENTIAL INFO
-              </h6>
-
-              <div className="mb-3">
-                <label className="form-label">First Name</label>
-                <input
-                  className={`form-control ${errors.firstname ? "is-invalid" : ""}`}
-                  {...register("firstname", {
-                    required: "First name is required",
-                    pattern: {
-                      value: /^[A-Za-z]+$/,
-                      message: "Name is Required",
-                    },
-                  })}
-                />
-                <div className="invalid-feedback">
-                  {errors.firstname?.message}
-                </div>
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">Last Name</label>
-                <input
-                  className={`form-control ${errors.lastname ? "is-invalid" : ""}`}
-                  {...register("lastname", {
-                    required: "last name is required",
-                    pattern: {
-                      value: /^[A-Za-z]+$/,
-                      message: " last Name is Required",
-                    },
-                  })}
-                />
-                <div className="invalid-feedback">
-                  {errors.lastname?.message}
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Email</label>
-                  <input
-                    className={`form-control ${errors.primaryEmail ? "is-invalid" : ""}`}
-                    {...register("primaryEmail")}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.primaryEmail?.message}
-                  </div>
-                </div>
-
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Phone No.</label>
-                  <input
-                    type="text"
-                    className={`form-control ${
-                      errors.primaryContactNo ? "is-invalid" : ""
-                    }`}
-                    {...register("primaryContactNo", {
-                      required: "Phone required",
-                      pattern: {
-                        value: /^[0-9]{10}$/,
-                        message: "Must be 10 digits",
-                      },
-                    })}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.primaryContactNo?.message}
-                  </div>
-                </div>
-
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Company</label>
-                  <input className="form-control" {...register("company")} />
-                </div>
-
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Designation</label>
-                  <input
-                    className="form-control"
-                    {...register("designation")}
-                  />
-                </div>
-              </div>
-            </>
-          )}
-
-          {tab === "full" && (
-            <>
-              <PersonalDetails register={register} errors={errors} />
-              <ContactDetails register={register} errors={errors} />
-              <ProfessionalDetails
-                register={register}
-                errors={errors}
-                setValue={setValue}
-              />
-              <LocationDetails register={register} errors={errors} />
-              <References register={register} errors={errors} />
-              <Socials register={register} />
-            </>
-          )}
-        </form>
-
-        <div className="card-footer d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            onClick={() => navigate("/")}
-            className="btn btn-outline-secondary"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            form="form"
-            className="btn btn-primary"
-            disabled={addCustomer.isPending || updateCustomer.isPending}
-          >
-            {addCustomer.isPending || updateCustomer.isPending
-              ? "Saving..."
-              : "Save Contact"}
-          </button>
-        </div>
+          {addCustomer.isPending || updateCustomer.isPending
+            ? "Saving..."
+            : "Save Contact"}
+        </button>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import FieldRender from "../fieldRender/FieldRender";
+import FieldRender from "../../modules/Customer/actions/fieldRender/FieldRender";
 
 const CustomerMoreInfo = ({ customer }) => {
   const fieldLeft = [
@@ -6,11 +6,15 @@ const CustomerMoreInfo = ({ customer }) => {
     // { label: "Primary Email", value: customer.primaryEmail },
     // { label: "Mobile Phone", value: customer.primaryContactNo },
     // { label: "Company Name", value: customer.company },
-    { label: "Facebook", value: customer.socialMedia?.facebook, type: "link" },
-    { label: "Twitter", value: customer.socialMedia?.twitter, type: "link" },
     {
       label: "Instagram",
       value: customer.socialMedia?.instagram,
+      type: "link",
+    },
+    { label: "Facebook", value: customer.socialMedia?.facebook, type: "link" },
+    {
+      label: "GitHub",
+      value: customer.socialMedia?.github,
       type: "link",
     },
   ];
@@ -20,7 +24,7 @@ const CustomerMoreInfo = ({ customer }) => {
     {
       label: "Secondary Mobile Phone",
       value: customer.secondaryContactNo,
-      type: "email",
+      type: "phone",
     },
     // { label: "Designation", value: customer.designation },
     // { label: "LinkedIn", value: customer.socialMedia?.linkedin || "-"},

@@ -1,11 +1,13 @@
-const LocationDetails = ({ register, errors }) => {
+import FormHeader from "../../../../ui/formHeader/formHeader";
+
+const Address = ({ register, errors }) => {
   return (
     <>
-      <h6 className="section-title text-primary">ADDRESS</h6>
+      <FormHeader label="Address" />
 
       <div className="row">
-        <div className="col-12 mb-3">
-          <label>Street</label>
+        <div className="col-12 mb-2">
+          <label className="address.label">Street</label>
           <input
             type="text"
             className="form-control bg-light"
@@ -13,8 +15,8 @@ const LocationDetails = ({ register, errors }) => {
           />
         </div>
 
-        <div className="col-md-6 mb-3">
-          <label>City </label>
+        <div className="col-md-6 mb-2">
+          <label className="address.label">City </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.city ? "is-invalid" : ""}`}
@@ -22,8 +24,8 @@ const LocationDetails = ({ register, errors }) => {
           />
         </div>
 
-        <div className="col-md-6 mb-3">
-          <label>State </label>
+        <div className="col-md-6 mb-2">
+          <label className="address.label">State </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.state ? "is-invalid" : ""}`}
@@ -31,8 +33,8 @@ const LocationDetails = ({ register, errors }) => {
           />
         </div>
 
-        <div className="col-md-6 mb-3">
-          <label>Country </label>
+        <div className="col-md-6 mb-2">
+          <label className="address.label">Country </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.country ? "is-invalid" : ""}`}
@@ -40,8 +42,8 @@ const LocationDetails = ({ register, errors }) => {
           />
         </div>
 
-        <div className="col-md-6 mb-3">
-          <label>Postcode </label>
+        <div className="col-md-6 mb-2">
+          <label className="address.label">Postcode </label>
           <input
             type="text"
             className={`form-control bg-light ${errors.address?.postCode ? "is-invalid" : ""}`}
@@ -53,4 +55,4 @@ const LocationDetails = ({ register, errors }) => {
   );
 };
 
-export default LocationDetails;
+export default Address;

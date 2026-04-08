@@ -1,4 +1,4 @@
-import FieldRender from "../fieldRender/FieldRender";
+import FieldRender from "../../modules/Customer/actions/fieldRender/FieldRender";
 
 const CustomerEngagement = ({ engagement }) => {
   const customerEngagement = [
