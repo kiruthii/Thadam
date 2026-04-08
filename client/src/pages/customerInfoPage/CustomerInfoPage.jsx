@@ -3,12 +3,18 @@ import CustomerMoreInfo from "../../components/customer/CustomerMoreInfo";
 import CustomerAddress from "../../components/customer/CustomerAddress";
 import CustomerEngagement from "../../components/customer/CustomerEngagement";
 import { getCustomerById } from "../../api/CustomerApi";
-import { useEffect, useState } from "react";
+//import { deleteCustomer } from "../../api/CustomerApi";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../components/button/Button";
+import Button from "../../ui/button/Button";
+import { CustomerTableContext } from "../../context/CustomerTableContext";
+import DeleteConfirmation from "../../components/deleteConfirmation/DeleteConfirmation";
 const CustomerInfoPage = () => {
+  const { deleteCustomer } = useContext(CustomerTableContext);
   const [customer, setCustomer] = useState(null);
   const [error, setError] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [customerToDelete, setCustomerToDelete] = useState(null);
   const { id } = useParams();
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -25,6 +31,23 @@ const CustomerInfoPage = () => {
   const navigate = useNavigate();
   const handleEdit = (customer) => {
     navigate("/add-customer-form", { state: customer });
+  };
+  const openDeleteConfirm = (id) => {
+    setCustomerToDelete(id);
+    setShowConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    deleteCustomer(customerToDelete);
+
+    setShowConfirm(false);
+    setCustomerToDelete(null);
+    navigate("/");
+  };
+
+  const cancelDelete = () => {
+    setShowConfirm(false);
+    setCustomerToDelete(null);
   };
   if (error) {
     return (
@@ -49,13 +72,24 @@ const CustomerInfoPage = () => {
         style={{ backgroundColor: "#eef2ff", color: "#2563eb" }}
       >
         <CustomerHeader customer={customer} />
+        <div className="d-flex align-items-center gap-">
+          <Button
+            buttonText="Edit"
+            className="btn btn-sm btn-primary ms-4"
+            onClick={() => handleEdit(customer)}
+            icon={<i className="me-2 bi bi-pencil-square"></i>}
+          ></Button>
 
-        <Button
-          buttonText="Edit"
-          className="btn btn-primary ms-4"
-          onClick={() => handleEdit(customer)}
-          icon={<i className="me-2 bi bi-pencil-square"></i>}
-        ></Button>
+          <Button
+            buttonText="Delete"
+            className="btn btn-sm btn-danger ms-4"
+            onClick={(e) => {
+              e.stopPropagation();
+              openDeleteConfirm(customer._id);
+            }}
+            icon={<i className="me-2 fa-regular fa-trash-can"></i>}
+          />
+        </div>
       </div>
       <div>
         <div
@@ -81,6 +115,12 @@ const CustomerInfoPage = () => {
         onClick={() => navigate("/")}
         icon={<i className=" me-2 fa-solid fa-arrow-left"></i>}
       ></Button>
+
+      <DeleteConfirmation
+        show={showConfirm}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };

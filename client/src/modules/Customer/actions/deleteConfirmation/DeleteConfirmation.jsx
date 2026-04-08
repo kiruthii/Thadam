@@ -1,5 +1,5 @@
 import { gooeyToast } from "goey-toast";
-import Button from "../button/Button";
+import Button from "../../ui/button/Button";
 
 const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
   if (!show) return null;
@@ -16,7 +16,7 @@ const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
           <strong className="text-danger">Deleted</strong>
           <div>Customer deleted successfully</div>
         </div>
-      </div>
+      </div>,
     );
   };
 
@@ -29,7 +29,6 @@ const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content shadow">
-
           {/* Header */}
           <div className="modal-header">
             <h5 className="modal-title text-danger">
@@ -37,11 +36,7 @@ const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
               Delete Customer
             </h5>
 
-            <Button
-              type="button"
-              className="btn-close"
-              onClick={onCancel}
-            />
+            <Button type="button" className="btn-close" onClick={onCancel} />
           </div>
 
           {/* Body */}
@@ -49,14 +44,11 @@ const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
             <p className="mb-0">
               Are you sure you want to delete this customer?
             </p>
-            <small className="text-muted">
-              This action cannot be undone.
-            </small>
+            <small className="text-muted">This action cannot be undone.</small>
           </div>
 
           {/* Footer */}
           <div className="modal-footer justify-content-center">
-
             <Button
               className="btn btn-outline-secondary"
               onClick={onCancel}
@@ -69,9 +61,7 @@ const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
               icon={<i className="bi bi-trash me-1"></i>}
               buttonText="Delete"
             />
-
           </div>
-
         </div>
       </div>
     </div>

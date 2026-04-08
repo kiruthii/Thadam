@@ -2,7 +2,6 @@ import { extractUrlId, formatEmail, formatPhone } from "../../utils/formaters";
 
 const FieldRender = ({ type = "text", value }) => {
   if (!value) return "-";
-
   switch (type) {
     case "link":
       return value ? (
