@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { CustomerTableContext } from "../../context/CustomerTableContext";
+import { CustomerTableContext } from "../../context/CustomerTableContextValue";
 import Button from "../../ui/button/Button";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";

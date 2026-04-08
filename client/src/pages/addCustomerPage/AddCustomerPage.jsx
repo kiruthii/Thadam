@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CustomerTableContext } from "../../context/CustomerTableContext";
+import { CustomerTableContext } from "../../context/CustomerTableContextValue";
 import { gooeyToast } from "goey-toast";
 
-import PersonalDetails from "../../modules/Customer/PersonalDetails/PersonalDetails";
+import PersonalDetails from "../../modules/Customer/personalDetails/PersonalDetails";
 import Organization from "../../modules/Customer/organizationDetails/OrganizationDetails";
-import SocialLinks from "../../modules/Customer/SocialLinks/SocialLinks";
+import SocialLinks from "../../modules/Customer/socialLinks/SocialLinks";
 import MoreInfo from "../../modules/Customer/moreInfo/MoreInfo";
 import Button from "../../ui/button/Button";
 const AddCustomerPage = () => {
@@ -79,7 +79,7 @@ const AddCustomerPage = () => {
   return (
     <div
       className="container-fluid px-3"
-      style={{ backgroundColor: "#eef2ff"}}
+      style={{ backgroundColor: "#eef2ff" }}
     >
       <div className="p-3 d-flex align-items-center justify-content-between">
         <Button

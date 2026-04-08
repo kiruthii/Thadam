@@ -7,8 +7,7 @@ import {
   deleteCustomer,
   getCustomerFilter,
 } from "../api/CustomerApi";
-
-export const CustomerTableContext = createContext();
+import { CustomerTableContext } from "./CustomerTableContextValue";
 
 export const CustomerContextProvider = ({ children }) => {
   const queryClient = useQueryClient();
