@@ -8,7 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../ui/button/Button";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
-import DeleteConfirmation from "../../components/deleteConfirmation/DeleteConfirmation";
+import DeleteConfirmation from "../../modules/Customer/actions/deleteConfirmation/DeleteConfirmation";
 const CustomerInfoPage = () => {
   const { deleteCustomer } = useContext(CustomerTableContext);
   const [customer, setCustomer] = useState(null);

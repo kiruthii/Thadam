@@ -1,4 +1,4 @@
-import DeleteConfirmation from "../deleteConfirmation/DeleteConfirmation";
+import DeleteConfirmation from "../../modules/Customer/actions/deleteConfirmation/DeleteConfirmation";
 import {
   useReactTable,
   getCoreRowModel,
@@ -10,10 +10,10 @@ import {
 import { useMemo, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomerTableContext } from "../../context/CustomerTableContext";
-import Button from "../button/Button";
+import Button from "../../ui/button/Button";
 import CustomerControl from "./CustomerControl";
 import ColumnSelector from "./ColumnSelector";
-import AddHoverButton from "../button/AddHoverButton";
+import AddHoverButton from "../../ui/button/AddHoverButton"
 import Pagination from "./Pagination";
 
 

@@ -1,5 +1,5 @@
 import React from "react"
-import Button from "../../components/button/Button"
+import Button from "../../ui/button/Button"
 import crmimage from "../../assets/CRM-home-page.jpeg"
 import ParagraphTag from "./Atoms/ParagraphTag"
 import { motion } from "framer-motion"

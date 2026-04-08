@@ -1,4 +1,4 @@
-import { extractUrlId, formatEmail, formatPhone } from "../../utils/formaters";
+import { extractUrlId, formatEmail, formatPhone } from "../../../../utils/formatters";
 
 const FieldRender = ({ type = "text", value }) => {
   if (!value) return "-";

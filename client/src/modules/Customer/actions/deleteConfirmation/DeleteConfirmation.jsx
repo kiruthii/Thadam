@@ -1,5 +1,5 @@
 import { gooeyToast } from "goey-toast";
-import Button from "../../ui/button/Button";
+import Button from "../../../../ui/button/Button";
 
 const DeleteConfirmation = ({ show, onCancel, onConfirm }) => {
   if (!show) return null;
