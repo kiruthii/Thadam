@@ -1,4 +1,4 @@
-import FormHeader from "../../../../ui/formHeader/formHeader";
+import FormHeader from "../../../../ui/formHeader/FormHeader";
 
 const ContactDetails = ({ register, errors }) => {
   return (

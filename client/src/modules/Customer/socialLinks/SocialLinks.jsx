@@ -1,5 +1,5 @@
 import { useFieldArray } from "react-hook-form";
-import FormHeader from "../../../ui/formHeader/formHeader";
+import FormHeader from "../../../ui/formHeader/FormHeader";
 import Button from "../../../ui/button/Button";
 const SocialLinks = ({ register, control }) => {
   const { fields, append, remove } = useFieldArray({

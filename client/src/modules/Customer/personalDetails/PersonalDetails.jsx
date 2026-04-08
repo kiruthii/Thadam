@@ -1,5 +1,5 @@
 // import { useState } from "react";
-import FormHeader from "../../../ui/formHeader/formHeader";
+import FormHeader from "../../../ui/formHeader/FormHeader";
 
 // const contactTypes = [
 //   "Lead",
@@ -92,9 +92,8 @@ const PersonalDetails = ({ register, errors }) => {
             <input
               type="text"
               maxLength={11} // 10 digits + 1 space
-              className={`form-control bg-light ${
-                errors.primaryContactNo ? "is-invalid" : ""
-              }`}
+              className={`form-control bg-light ${errors.primaryContactNo ? "is-invalid" : ""
+                }`}
               {...register("primaryContactNo", {
                 required: "Phone required",
                 validate: (value) => {

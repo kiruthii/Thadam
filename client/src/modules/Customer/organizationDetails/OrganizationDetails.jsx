@@ -1,4 +1,4 @@
-import FormHeader from "../../../ui/formHeader/formHeader";
+import FormHeader from "../../../ui/formHeader/FormHeader";
 
 const OrganizationDetails = ({ register }) => {
   return (
