@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import DashboardLayout from "../layout/DashboardLayout";
 import AuthDetailsPage from "../auth/AuthDetails";
 import AuthGuard from "../components/authGuard/AuthGuard";
 
@@ -22,11 +21,11 @@ const AppRoutes = () => {
         path="/"
         element={
           <AuthGuard>
-            <DashboardLayout />
+            <DashboardPage />
           </AuthGuard>
         }
       >
-        <Route index element={<DashboardPage />} />
+      
       </Route>
       <Route
         path="/add-customer-form"

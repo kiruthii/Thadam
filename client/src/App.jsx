@@ -1,5 +1,4 @@
 import { BrowserRouter } from "react-router-dom";
-import { WelcomeMessageContext } from "./context/WelcomeMessageContext";
 import { CustomerContextProvider } from "./context/CustomerTableContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AppRoutes from "./routes/AppRoutes";
@@ -16,11 +15,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <GooeyToaster position="top-center" />
-        <WelcomeMessageContext>
+      
           <CustomerContextProvider>
             <AppRoutes />
           </CustomerContextProvider>
-        </WelcomeMessageContext>
+       
       </BrowserRouter>
     </QueryClientProvider>
   );
