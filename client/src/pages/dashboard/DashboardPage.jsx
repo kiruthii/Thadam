@@ -1,27 +1,40 @@
-import { useEffect, useContext } from "react";
-import { messageContext } from "../../context/WelcomeMessageContext";
+import { useState } from "react";
+import Sidebar from "../../layout/sidebar/Sidebar";
+import WelcomeCard from "../../layout/welcomeCard/WelcomCard";
 import CustomerTable from "../../components/table/CustomerTable";
+import { Logout } from "../../components/logOutHandling/LogoutHandling";
 
-const WelcomeMessage = () => {
-  const name = localStorage.getItem("name") ?? "Guest";
-  const { setWelcomeMessage } = useContext(messageContext);
-
-  useEffect(() => {
-    setWelcomeMessage(`Welcome back, ${name}`);
-  }, []);
+const DashboardPage = () => {
+  const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <div className="card shadow-sm p-4 mb-4">
-        <h1 className="h3 mb-2">{name}'s Dashboard</h1>
-        <p className="text-muted mb-0">Welcome back, {name}</p>
-      </div>
+    <div className="d-flex vh-100 position-relative">
+      {/* Sidebar */}
+      <Sidebar open={open} setOpen={setOpen} handleLogout={Logout} />
 
-      <div>
-        <CustomerTable />
+      {/* Main Content */}
+      <div className="flex-grow-1 d-flex flex-column bg-light overflow-auto">
+        {/* Top Bar */}
+        <div className="border-bottom bg-white p-2">
+          <button
+            className="btn btn-outline-secondary d-md-none"
+            onClick={() => setOpen(!open)}
+          >
+            ☰
+          </button>
+        </div>
+
+        {/* Page Content */}
+        <div className="p-4">
+          <WelcomeCard />
+
+          <div>
+            <CustomerTable />
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default WelcomeMessage;
+export default DashboardPage;
