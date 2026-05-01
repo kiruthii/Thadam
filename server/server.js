@@ -6,7 +6,9 @@ const cors = require("cors");
 
 const customerRoutes = require("./routes/customerRoutes");
 const authRoutes = require("./routes/authRoutes");
-const userRoutes=require("./routes/userRoutes")
+const userRoutes = require("./routes/userRoutes");
+const logMeetingRoutes = require("./routes/logMeetingRoutes");
+
 const app = express();
 
 app.use(cors());
@@ -21,9 +23,10 @@ app.get("/", (req, res) => {
   res.send("Server Started");
 });
 
-app.use("/api", customerRoutes);
 app.use("/", authRoutes);
-app.use("/api/users",userRoutes );
+app.use("/api/users", userRoutes);
+app.use("/api/customers", logMeetingRoutes);
+app.use("/api", customerRoutes);
 
 const PORT = process.env.PORT || 5000;
 

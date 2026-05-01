@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const customerController = require("../controllers/customerController");
 const verifyToken = require("../middleware/authMiddleware");
 
 const {
@@ -12,10 +11,22 @@ const {
   getCustomerFilter,
 } = require("../controllers/customerController");
 
-router.get("/customers/filters", verifyToken, getCustomerFilter)
+const {
+  addLogMeeting,
+  updateLogMeeting,
+  deleteLogMeeting,
+} = require("../controllers/logMeetingController");
+
+
+router.get("/customers/filters", verifyToken, getCustomerFilter);
 router.get("/customers", verifyToken, getAllCustomers);
-router.delete("/customers/:id", verifyToken, deleteCustomer);
+router.post("/customers", verifyToken, addCustomer);
 router.get("/customers/:id", verifyToken, getCustomerById);
 router.put("/customers/:id", verifyToken, updateCustomer);
-router.post("/customers", verifyToken, addCustomer);
+router.delete("/customers/:id", verifyToken, deleteCustomer);
+
+router.post("/customers/:id/log-meeting", verifyToken, addLogMeeting);
+router.put("/customers/:id/log-meeting/:meetingId", verifyToken, updateLogMeeting);
+router.delete("/customers/:id/log-meeting/:meetingId", verifyToken, deleteLogMeeting);
+
 module.exports = router;
