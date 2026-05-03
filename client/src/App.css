@@ -10,4 +10,55 @@
 .dashboard-content p {
   color: #6b7280;
 }
+.contact-page {
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+}
+label {
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  &.required {
+    &::after {
+      content: "*";
+      color: red;
+      margin-left: 0.2rem;
+    }
+  }
+}
 
+.address-label {
+  color: black;
+}
+input:focus {
+  box-shadow: none;
+  outline: 3px;
+}
+
+.section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-weight: 600;
+  /* border-left: 3px solid; */
+  &::before {
+    content: "|";
+  }
+}
+.gradient-bg {
+  color: white;
+  background: linear-gradient(270deg, #2563eb, #3b82f6);
+}
+
+.redirect-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.redirect-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

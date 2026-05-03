@@ -1,8 +1,8 @@
 import axios from "axios";
-const VITE_BACKEND_LIVE_BASE_URL= import.meta.env.VITE_BACKEND_LIVE_BASE_URL;
- 
+const VITE_BACKEND_LIVE_BASE_URL = import.meta.env.VITE_BACKEND_LIVE_BASE_URL;
+
 const CUSTOMER_API_URL = `${VITE_BACKEND_LIVE_BASE_URL}/api/customers`;
- 
+
 const getAuthConfig = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -14,43 +14,76 @@ export const getCustomerById = async (id) => {
   return res.data.data[0];
 };
 
-export const getCustomers = async (search,location,contactType,designation) => {
-  let url =CUSTOMER_API_URL;
-
+export const getCustomers = async (search, location, contactType, designation) => {
+  let url = CUSTOMER_API_URL;
   const params = [];
-
   if (search) params.push(`search=${search}`);
   if (location) params.push(`location=${location}`);
-  if (contactType) params.push(`contactType=${contactType}`)
-  if (designation) params.push(`designation=${designation}`)
-
-  if (params.length > 0) {
-    url += `?${params.join("&")}`;
-  }
-
+  if (contactType) params.push(`contactType=${contactType}`);
+  if (designation) params.push(`designation=${designation}`);
+  if (params.length > 0) url += `?${params.join("&")}`;
   const res = await axios.get(url, getAuthConfig());
   return res.data.data;
 };
 
-export const getCustomerFilter = async() => {
-  const res = await axios.get(`${CUSTOMER_API_URL}/filters`, getAuthConfig())
-  return res.data.data
-}
+export const getCustomerFilter = async () => {
+  const res = await axios.get(`${CUSTOMER_API_URL}/filters`, getAuthConfig());
+  return res.data.data;
+};
 
-
- 
 export const addCustomer = async (data) => {
   const res = await axios.post(CUSTOMER_API_URL, data, getAuthConfig());
   return res.data;
 };
- 
+
 export const updateCustomer = async ({ id, data }) => {
   const res = await axios.put(`${CUSTOMER_API_URL}/${id}`, data, getAuthConfig());
   return res.data;
 };
- 
+
 export const deleteCustomer = async (id) => {
   const res = await axios.delete(`${CUSTOMER_API_URL}/${id}`, getAuthConfig());
   return res.data;
 };
- 
+
+export const addLogMeeting = async ({ id, data }) => {
+  const safeId = id?.toString();
+  if (!safeId) throw new Error("addLogMeeting: missing customer id");
+  const res = await axios.post(
+    `${CUSTOMER_API_URL}/${safeId}/log-meeting`,
+    data,
+    getAuthConfig()
+  );
+  return res.data;
+};
+
+export const updateLogMeeting = async ({ id, meetingId, data }) => {
+  const safeId = id?.toString();
+  const safeMeetingId = meetingId?.toString();
+  if (!safeId || !safeMeetingId) {
+    throw new Error(
+      `updateLogMeeting: invalid IDs — customerId="${safeId}", meetingId="${safeMeetingId}"`
+    );
+  }
+  const res = await axios.put(
+    `${CUSTOMER_API_URL}/${safeId}/log-meeting/${safeMeetingId}`,
+    data,
+    getAuthConfig()
+  );
+  return res.data;
+};
+
+export const deleteLogMeeting = async ({ id, meetingId }) => {
+  const safeId = id?.toString();
+  const safeMeetingId = meetingId?.toString();
+  if (!safeId || !safeMeetingId) {
+    throw new Error(
+      `deleteLogMeeting: invalid IDs — customerId="${safeId}", meetingId="${safeMeetingId}"`
+    );
+  }
+  const res = await axios.delete(
+    `${CUSTOMER_API_URL}/${safeId}/log-meeting/${safeMeetingId}`,
+    getAuthConfig()
+  );
+  return res.data;
+};

@@ -68,10 +68,14 @@ exports.callback = async (req, res) => {
 
 
 exports.logout = async (req, res) => {
+  console.log("Logout endpoint hit");
+  console.log("Authorization header:", req.headers["authorization"]);
+  
   try {
     const token = req.headers["authorization"];
 
     if (!token) {
+      console.log("No token provided");
       return res.status(400).json({
         success: false,
         message: "Token missing",
@@ -80,27 +84,35 @@ exports.logout = async (req, res) => {
 
     const accessToken = token.replace("Bearer ", "").trim();
 
-   
-    const payload = JSON.parse(
-      Buffer.from(accessToken.split(".")[1], "base64").toString()
-    );
+    try {
+      const payload = JSON.parse(
+        Buffer.from(accessToken.split(".")[1], "base64").toString()
+      );
 
-    const sessionId = payload.sid;
+      const sessionId = payload.sid;
 
-    if (!sessionId) {
+      if (!sessionId) {
+        console.log("No session ID in token");
+        return res.status(400).json({
+          success: false,
+          message: "Invalid session",
+        });
+      }
+
+      await workos.userManagement.revokeSession({ sessionId });
+      
+      console.log("Session revoked successfully");
+      res.json({
+        success: true,
+        message: "Logged out successfully",
+      });
+    } catch (parseError) {
+      console.error("Token parsing error:", parseError);
       return res.status(400).json({
         success: false,
-        message: "Invalid session",
+        message: "Invalid token format",
       });
     }
-
-   
-    await workos.userManagement.revokeSession({ sessionId });
-
-    res.json({
-      success: true,
-      message: "Logged out successfully",
-    });
   } catch (error) {
     console.error("Logout error:", error);
 

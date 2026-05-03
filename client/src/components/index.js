@@ -1,8 +1,0 @@
-export {default as ContactDetails} from './form/ContactDetails'
-export {default as Socials} from './form/Socials'
-export {default as LocationDetails} from './form/LocationDetails'
-export {default as PersonalDetails } from './form/PersonalDetails'
-export {default as ProfessionalDetails} from './form/ProfessionalDetails'
-export {default as References} from './form/References'
-export {default as Button} from './button/Button'
-export {default as TimeLine} from './TimeLineBar/TimeLine'
