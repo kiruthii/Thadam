@@ -1,4 +1,4 @@
-const Customer = require("../models/Customer.js");
+const Customer = require("../models/customer.js");
 
 const addLogMeeting = async (req, res) => {
   try {
